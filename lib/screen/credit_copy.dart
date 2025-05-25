@@ -22,8 +22,8 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        //extendBodyBehindAppBar: true,
         title: Text(
           'EDUvian',
           style: TextStyle(
@@ -37,7 +37,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
           ),
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color.fromRGBO(203, 4, 4, 1),
         foregroundColor: Colors.white,
 
         leading: IconButton(
@@ -61,69 +61,47 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            colors: [
+              Color(0xff309898),
+              Color.fromARGB(255, 74, 193, 193),
+              Color.fromARGB(255, 231, 173, 146),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(104, 255, 255, 255),
+            border: Border.all(color: Colors.white, width: 2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+
+          child: Column(
+            children: [
+              Expanded(
                 child: Column(
                   children: [
                     Consumer(
                       builder: (context, ref, child) {
-                        return DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Select Scholarship',
-                            labelStyle: TextStyle(color: Colors.black54),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: const Color.fromRGBO(
-                                  48,
-                                  152,
-                                  152,
-                                  1.000,
-                                ),
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: const Color.fromRGBO(
-                                  48,
-                                  152,
-                                  152,
-                                  1.000,
-                                ),
-                                width: 2.0,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: const Color.fromARGB(255, 58, 179, 179),
-                                width: 2.0,
-                              ),
-                            ),
-                          ),
-                          dropdownColor: Color.fromRGBO(57, 179, 179, 1),
-                          style: TextStyle(color: Colors.black),
-                          value: ref.watch(scholoarshipProvider),
-                          items:
-                              items.keys.map((value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                          onChanged: (newValue) {
-                            if (newValue != null) {
+                        return _glassCard(
+                          child: DropdownButtonFormField(
+                            decoration: _inputDecoration('Select Scholarship'),
+                            value: ref.watch(scholoarshipProvider),
+                            items:
+                                items.keys.map((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                            onChanged: (newValue) {
                               ref.read(scholoarshipProvider.notifier).state =
-                                  newValue;
-                            }
-                          },
+                                  newValue!;
+                            },
+                          ),
                         );
                       },
                     ),
@@ -231,7 +209,9 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   hintText: 'Search by code or name',
-                                  labelStyle: TextStyle(color: Colors.black54),
+                                  labelStyle: TextStyle(
+                                    color: Color(0xffcb0404),
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
                                     borderSide: BorderSide.none,
@@ -332,8 +312,11 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                             .read(subjectProvider.notifier)
                                             .state = update;
                                       },
-                                      backgroundColor: Colors.teal.shade100,
+                                      backgroundColor: Colors.white24,
                                       deleteIconColor: Colors.redAccent,
+                                      labelStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
                                         vertical: 4,
@@ -427,112 +410,156 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                   ],
                 ),
               ),
-            ),
 
-            Consumer(
-              builder: (context, ref, child) {
-                final selected = ref.watch(subjectProvider);
-                final totalCredit = selected.fold<double>(
-                  0,
-                  (prev, subject) => prev + subject.Credit,
-                );
-                final rate = items[ref.watch(scholoarshipProvider)] ?? 0;
-                double totalCost = rate * totalCredit;
-                if (ref.watch(discountProvider)) {
-                  totalCost *= 0.95;
-                }
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 0,
-                  ),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(72, 217, 217, 0.675),
-                    border: Border(
-                      top: BorderSide(
-                        color: Color.fromRGBO(48, 152, 152, 1.000),
+              Consumer(
+                builder: (context, ref, child) {
+                  final selected = ref.watch(subjectProvider);
+                  final totalCredit = selected.fold<double>(
+                    0,
+                    (prev, subject) => prev + subject.Credit,
+                  );
+                  final rate = items[ref.watch(scholoarshipProvider)] ?? 0;
+                  double totalCost = rate * totalCredit;
+                  if (ref.watch(discountProvider)) {
+                    totalCost *= 0.95;
+                  }
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 0,
+                    ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(72, 217, 217, 0.675),
+                      border: Border(
+                        top: BorderSide(
+                          color: Color.fromRGBO(48, 152, 152, 1.000),
+                        ),
                       ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Total Credit: ${totalCredit}",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Total Credit: ${totalCredit}",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
 
-                              Text(
-                                "Per Credit Cost: ${items[ref.watch(scholoarshipProvider)].toString()} Tk",
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                                Text(
+                                  "Per Credit Cost: ${items[ref.watch(scholoarshipProvider)].toString()} Tk",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
 
-                              Text(
-                                "Total Cost: ${totalCost.toStringAsFixed(2)} Tk",
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
+                                Text(
+                                  "Total Cost: ${totalCost.toStringAsFixed(2)} Tk",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Consumer(
-                            builder: (context, ref, child) {
-                              return Column(
-                                children: [
-                                  Checkbox(
-                                    activeColor: Color.fromRGBO(
-                                      255,
-                                      159,
-                                      0,
-                                      1.000,
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Consumer(
+                              builder: (context, ref, child) {
+                                return Column(
+                                  children: [
+                                    Checkbox(
+                                      activeColor: Color.fromRGBO(
+                                        255,
+                                        159,
+                                        0,
+                                        1.000,
+                                      ),
+                                      value: ref.watch(discountProvider),
+                                      onChanged: (value) {
+                                        ref
+                                            .read(discountProvider.notifier)
+                                            .state = value ?? false;
+                                      },
                                     ),
-                                    value: ref.watch(discountProvider),
-                                    onChanged: (value) {
-                                      ref
-                                          .read(discountProvider.notifier)
-                                          .state = value ?? false;
-                                    },
-                                  ),
-                                  Text(
-                                    'Apply 5% Discount',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
+                                    Text(
+                                      'Apply 5% Discount',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  InputDecoration _inputDecoration(String label) => InputDecoration(
+    labelText: label,
+    filled: true,
+    fillColor: Colors.white.withOpacity(0.9),
+    labelStyle: const TextStyle(color: Colors.white),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide.none,
+    ),
+  );
+
+  Widget _glassCard({required Widget child, EdgeInsets? padding}) => Container(
+    padding: padding ?? const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      //color: Colors.white.withOpacity(0.1),
+      borderRadius: BorderRadius.circular(20),
+      //border: Border.all(color: Colors.white.withOpacity(0.5)),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          blurRadius: 12,
+          offset: const Offset(0, 6),
+        ),
+      ],
+    ),
+    child: child,
+  );
+  Widget _summaryRow(String label, String value) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 6),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(value, style: const TextStyle(color: Colors.white)),
+      ],
+    ),
+  );
 }

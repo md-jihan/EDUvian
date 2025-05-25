@@ -15,9 +15,7 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
       title: 'EDUvian',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-      ),
+      theme: ThemeData(),
       debugShowCheckedModeBanner: false,
       routerConfig: router,
     );
