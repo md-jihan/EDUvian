@@ -108,33 +108,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           value: ref.watch(
                                             scholoarshipProvider,
                                           ),
-                                          decoration: InputDecoration(
-                                            filled: true,
-                                            fillColor: Colors.white.withOpacity(
-                                              0.2,
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: BorderSide(
-                                                color: Colors.white.withOpacity(
-                                                  0.4,
-                                                ),
-                                              ),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                  horizontal: 16,
-                                                  vertical: 14,
-                                                ),
-                                          ),
+                                          decoration: _inputDecoration(),
                                           dropdownColor: Colors.black87,
                                           iconEnabledColor: Colors.white,
                                           style: const TextStyle(
@@ -179,33 +153,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                       return _roundedField(
                                         child: DropdownButtonFormField<String>(
                                           value: ref.watch(departmentProvider),
-                                          decoration: InputDecoration(
-                                            filled: true,
-                                            fillColor: Colors.white.withOpacity(
-                                              0.2,
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: BorderSide(
-                                                color: Colors.white.withOpacity(
-                                                  0.4,
-                                                ),
-                                              ),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                  horizontal: 16,
-                                                  vertical: 14,
-                                                ),
-                                          ),
+                                          decoration: _inputDecoration(),
                                           dropdownColor: Colors.black87,
                                           iconEnabledColor: Colors.white,
                                           style: const TextStyle(
@@ -521,15 +469,18 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
     ),
   );
 
-  InputDecoration _inputDecoration(String label) => InputDecoration(
-    labelText: label,
+  InputDecoration _inputDecoration() => InputDecoration(
     filled: true,
-    fillColor: Colors.white.withOpacity(0.9),
-    labelStyle: const TextStyle(color: Colors.black),
-    border: OutlineInputBorder(
+    fillColor: Colors.white.withOpacity(0.2),
+    enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(color: Colors.white.withOpacity(0.4)),
     ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(color: Colors.white),
+    ),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
   );
 
   Widget _glassCard({required Widget child, EdgeInsets? padding}) => Container(
