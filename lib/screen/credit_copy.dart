@@ -19,6 +19,14 @@ class CreditCalculation extends ConsumerStatefulWidget {
 }
 
 class _CreditCalculationState extends ConsumerState<CreditCalculation> {
+  late TextEditingController subjectController;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    subjectController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -239,6 +247,10 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           .read(subjectProvider.notifier)
                                           .state = [...current, subjects];
                                     }
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                          subjectController.clear();
+                                        });
                                   },
                                   fieldViewBuilder: (
                                     context,
@@ -246,6 +258,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                     focusNode,
                                     onEditingComplete,
                                   ) {
+                                    subjectController = controller;
                                     return TextField(
                                       controller: controller,
                                       focusNode: focusNode,
