@@ -19,6 +19,20 @@ class CreditCalculation extends ConsumerStatefulWidget {
 }
 
 class _CreditCalculationState extends ConsumerState<CreditCalculation> {
+  late final TextEditingController subjectCont;
+
+  @override
+  void initState() {
+    super.initState();
+    subjectCont = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    subjectCont.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -206,8 +220,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
-                              late TextEditingController subj =
-                                  TextEditingController();
                               return _roundedField(
                                 child: Autocomplete<Subject>(
                                   optionsBuilder: (
@@ -233,23 +245,14 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   displayStringForOption:
                                       (Subject option) =>
                                           '${option.Code} ${option.Title}',
-                                  onSelected: (Subject subjects) {
-                                    final current = ref.read(subjectProvider);
 
-                                    if (!current.contains(subjects)) {
-                                      ref
-                                          .read(subjectProvider.notifier)
-                                          .state = [...current, subjects];
-                                    }
-                                    subj.clear();
-                                  },
                                   fieldViewBuilder: (
                                     context,
                                     controller,
                                     focusNode,
                                     onEditingComplete,
                                   ) {
-                                    subj = controller;
+                                    subjectCont = controller;
                                     return TextField(
                                       controller: controller,
                                       focusNode: focusNode,
@@ -259,6 +262,18 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                         icon: Icons.search,
                                       ),
                                     );
+                                  },
+                                  onSelected: (Subject subjects) {
+                                    final current = ref.read(subjectProvider);
+
+                                    if (!current.contains(subjects)) {
+                                      ref
+                                          .read(subjectProvider.notifier)
+                                          .state = [...current, subjects];
+                                    }
+                                    Future.delayed(Duration.zero, () {
+                                      subjectCont.clear();
+                                    });
                                   },
                                   optionsViewBuilder: (
                                     context,
