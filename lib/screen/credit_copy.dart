@@ -218,10 +218,9 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                     );
                                     final departmentList =
                                         department[departmentf] ?? [];
-                                    if (departmentf == '' ||
-                                        departmentList.isEmpty)
+                                    if (departmentf == '') {
                                       return const Iterable<Subject>.empty();
-
+                                    }
                                     if (subjectName.text.isEmpty) {
                                       return departmentList;
                                     }
@@ -245,15 +244,15 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                     _,
                                     onEditingComplete,
                                   ) {
-                                    subjectCont.text = controller.text;
-                                    subjectCont.selection =
-                                        controller.selection;
                                     focusNode.addListener(() {
                                       if (focusNode.hasFocus &&
                                           controller.text.isEmpty) {
+                                        controller.text = ' ';
                                         controller.selection =
                                             TextSelection.fromPosition(
-                                              TextPosition(offset: 1),
+                                              TextPosition(
+                                                offset: controller.text.length,
+                                              ),
                                             );
                                         Future.delayed(
                                           Duration(milliseconds: 10),
