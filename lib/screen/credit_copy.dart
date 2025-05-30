@@ -19,13 +19,6 @@ class CreditCalculation extends ConsumerStatefulWidget {
 }
 
 class _CreditCalculationState extends ConsumerState<CreditCalculation> {
-  late TextEditingController subjectController;
-  @override
-  void dispose() {
-    subjectController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,6 +206,8 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
+                              late TextEditingController subj =
+                                  TextEditingController();
                               return _roundedField(
                                 child: Autocomplete<Subject>(
                                   optionsBuilder: (
@@ -246,10 +241,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           .read(subjectProvider.notifier)
                                           .state = [...current, subjects];
                                     }
-                                    WidgetsBinding.instance
-                                        .addPostFrameCallback((_) {
-                                          subjectController.clear();
-                                        });
+                                    subj.clear();
                                   },
                                   fieldViewBuilder: (
                                     context,
@@ -257,7 +249,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                     focusNode,
                                     onEditingComplete,
                                   ) {
-                                    subjectController = controller;
+                                    subj = controller;
                                     return TextField(
                                       controller: controller,
                                       focusNode: focusNode,
