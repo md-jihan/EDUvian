@@ -19,20 +19,6 @@ class CreditCalculation extends ConsumerStatefulWidget {
 }
 
 class _CreditCalculationState extends ConsumerState<CreditCalculation> {
-  late final TextEditingController subjectCont;
-
-  @override
-  void initState() {
-    super.initState();
-    subjectCont = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    subjectCont.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,6 +206,8 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
+                              final subjectCont = TextEditingController();
+                              final focusNode = FocusNode();
                               return _roundedField(
                                 child: Autocomplete<Subject>(
                                   optionsBuilder: (
@@ -230,8 +218,13 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                     );
                                     final departmentList =
                                         department[departmentf] ?? [];
-                                    if (departmentf == '')
+                                    if (departmentf == '' ||
+                                        departmentList.isEmpty)
                                       return const Iterable<Subject>.empty();
+
+                                    if (subjectName.text.isEmpty) {
+                                      return departmentList;
+                                    }
                                     return departmentList.where(
                                       (subject) =>
                                           subject.Code.toLowerCase().contains(
@@ -249,10 +242,27 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   fieldViewBuilder: (
                                     context,
                                     controller,
-                                    focusNode,
+                                    _,
                                     onEditingComplete,
                                   ) {
-                                    subjectCont = controller;
+                                    subjectCont.text = controller.text;
+                                    subjectCont.selection =
+                                        controller.selection;
+                                    focusNode.addListener(() {
+                                      if (focusNode.hasFocus &&
+                                          controller.text.isEmpty) {
+                                        controller.selection =
+                                            TextSelection.fromPosition(
+                                              TextPosition(offset: 1),
+                                            );
+                                        Future.delayed(
+                                          Duration(milliseconds: 10),
+                                          () {
+                                            controller.clear();
+                                          },
+                                        );
+                                      }
+                                    });
                                     return TextField(
                                       controller: controller,
                                       focusNode: focusNode,
@@ -272,7 +282,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           .state = [...current, subjects];
                                     }
                                     Future.delayed(Duration.zero, () {
-                                      subjectCont.clear();
+                                      subjectCont?.clear();
                                     });
                                   },
                                   optionsViewBuilder: (
