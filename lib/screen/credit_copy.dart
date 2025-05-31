@@ -206,8 +206,8 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
-                              late TextEditingController subjectController =
-                                  TextEditingController();
+                              final subjectController = TextEditingController();
+                              final subjectFocusNode = FocusNode();
                               return _roundedField(
                                 child: Autocomplete<Subject>(
                                   optionsBuilder: (
@@ -220,6 +220,9 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                         department[departmentf] ?? [];
                                     if (departmentf == '') {
                                       return const Iterable<Subject>.empty();
+                                    }
+                                    if (subjectName.text.trim().isEmpty) {
+                                      return departmentList;
                                     }
                                     return departmentList.where(
                                       (subject) =>
@@ -238,13 +241,40 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   fieldViewBuilder: (
                                     context,
                                     controller,
-                                    focusNode,
+                                    focuseNode,
                                     onEditingComplete,
                                   ) {
-                                    subjectController = controller;
+                                    // subjectFocusNode.addListener(() {
+                                    //   if (subjectFocusNode.hasFocus) {
+                                    //     if (controller.text.isNotEmpty) {
+                                    //       controller.clear();
+                                    //       controller.text = ' ';
+                                    //       controller.selection =
+                                    //           TextSelection.collapsed(
+                                    //             offset: controller.text.length,
+                                    //           );
+                                    //     }
+                                    //   }
+                                    // });
                                     return TextField(
                                       controller: controller,
-                                      focusNode: focusNode,
+                                      focusNode: focuseNode,
+                                      onTap: () {
+                                        if (controller.text.isNotEmpty) {
+                                          controller.clear();
+                                        }
+                                        controller.text = ' ';
+                                        controller.selection =
+                                            TextSelection.collapsed(
+                                              offset: controller.text.length,
+                                            );
+                                        Future.delayed(
+                                          const Duration(milliseconds: 100),
+                                          () {
+                                            controller.clear();
+                                          },
+                                        );
+                                      },
                                       onEditingComplete: onEditingComplete,
                                       decoration: _fieldDecoration(
                                         hint: 'Search Subject',
@@ -260,9 +290,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           .read(subjectProvider.notifier)
                                           .state = [...current, subjects];
                                     }
-                                    Future.delayed(Duration.zero, () {
-                                      subjectController.clear();
-                                    });
                                   },
                                   optionsViewBuilder: (
                                     context,
@@ -285,7 +312,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                                 0.915,
                                           ),
                                           child: ListView.builder(
-                                            shrinkWrap: true,
                                             padding: EdgeInsets.symmetric(
                                               vertical: 4,
                                             ),
