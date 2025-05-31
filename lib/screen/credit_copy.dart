@@ -281,7 +281,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           .state = [...current, subjects];
                                     }
                                     Future.delayed(Duration.zero, () {
-                                      subjectCont?.clear();
+                                      subjectCont.clear();
                                     });
                                   },
                                   optionsViewBuilder: (
