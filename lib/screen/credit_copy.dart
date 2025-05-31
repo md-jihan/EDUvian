@@ -100,7 +100,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 5),
                                   Consumer(
                                     builder: (context, ref, child) {
                                       return _roundedField(
@@ -109,10 +109,13 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                             scholoarshipProvider,
                                           ),
                                           decoration: _inputDecoration(),
-                                          dropdownColor: Colors.black87,
+                                          dropdownColor: Colors.white,
                                           iconEnabledColor: Colors.white,
                                           style: const TextStyle(
-                                            color: Colors.white,
+                                            color: Colors.black,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
                                           ),
                                           items:
                                               items.keys.map((value) {
@@ -135,7 +138,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 6),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,17 +150,20 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 5),
                                   Consumer(
                                     builder: (context, ref, child) {
                                       return _roundedField(
                                         child: DropdownButtonFormField<String>(
                                           value: ref.watch(departmentProvider),
                                           decoration: _inputDecoration(),
-                                          dropdownColor: Colors.black87,
+                                          dropdownColor: Colors.white,
                                           iconEnabledColor: Colors.white,
                                           style: const TextStyle(
-                                            color: Colors.white,
+                                            color: Colors.black,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
                                           ),
                                           items: [
                                             DropdownMenuItem<String>(
@@ -202,7 +208,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
 
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 5),
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
@@ -323,7 +329,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                                   borderRadius:
                                                       BorderRadius.circular(8),
                                                 ),
-                                                hoverColor: Colors.teal.shade100
+                                                focusColor: Colors.teal.shade100
                                                     .withOpacity(0.3),
                                               );
                                             },
@@ -392,7 +398,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                             'Total Credits: ',
                             totalCredit.toStringAsFixed(1),
                           ),
-                          _infoRow('Apply so Credit', rate.toStringAsFixed(0)),
+                          _infoRow('Apply Per Credit', rate.toStringAsFixed(0)),
                           Row(
                             children: [
                               Checkbox(
