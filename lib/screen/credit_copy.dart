@@ -341,16 +341,17 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                           builder: (context, ref, child) {
                             final selected = ref.watch(subjectProvider);
 
-                            return SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Column(
-                                children: [
-                                  ...selected
-                                      .map(
-                                        (subject) => _subjectTile(subject, ref),
-                                      )
-                                      .toList(),
-                                ],
+                            return Expanded(
+                              child: SingleChildScrollView(
+                                child: ListView.builder(
+                                  itemCount: selected.length,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    final subject = selected[index];
+                                    return _subjectTile(subject, ref);
+                                  },
+                                ),
                               ),
                             );
                           },
