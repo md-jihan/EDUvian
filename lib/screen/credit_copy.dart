@@ -206,8 +206,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
-                              final subjectController = TextEditingController();
-                              final subjectFocusNode = FocusNode();
                               return _roundedField(
                                 child: Autocomplete<Subject>(
                                   optionsBuilder: (
@@ -244,18 +242,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                     focuseNode,
                                     onEditingComplete,
                                   ) {
-                                    // subjectFocusNode.addListener(() {
-                                    //   if (subjectFocusNode.hasFocus) {
-                                    //     if (controller.text.isNotEmpty) {
-                                    //       controller.clear();
-                                    //       controller.text = ' ';
-                                    //       controller.selection =
-                                    //           TextSelection.collapsed(
-                                    //             offset: controller.text.length,
-                                    //           );
-                                    //     }
-                                    //   }
-                                    // });
                                     return TextField(
                                       controller: controller,
                                       focusNode: focuseNode,
