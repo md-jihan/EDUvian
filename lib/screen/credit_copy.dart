@@ -206,8 +206,8 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
-                              final subjectCont = TextEditingController();
-                              final focusNode = FocusNode();
+                              late TextEditingController subjectController =
+                                  TextEditingController();
                               return _roundedField(
                                 child: Autocomplete<Subject>(
                                   optionsBuilder: (
@@ -220,9 +220,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                         department[departmentf] ?? [];
                                     if (departmentf == '') {
                                       return const Iterable<Subject>.empty();
-                                    }
-                                    if (subjectName.text.isEmpty) {
-                                      return departmentList;
                                     }
                                     return departmentList.where(
                                       (subject) =>
@@ -241,27 +238,10 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   fieldViewBuilder: (
                                     context,
                                     controller,
-                                    _,
+                                    focusNode,
                                     onEditingComplete,
                                   ) {
-                                    focusNode.addListener(() {
-                                      if (focusNode.hasFocus &&
-                                          controller.text.isEmpty) {
-                                        controller.text = ' ';
-                                        controller.selection =
-                                            TextSelection.fromPosition(
-                                              TextPosition(
-                                                offset: controller.text.length,
-                                              ),
-                                            );
-                                        Future.delayed(
-                                          Duration(milliseconds: 10),
-                                          () {
-                                            controller.clear();
-                                          },
-                                        );
-                                      }
-                                    });
+                                    subjectController = controller;
                                     return TextField(
                                       controller: controller,
                                       focusNode: focusNode,
@@ -281,7 +261,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           .state = [...current, subjects];
                                     }
                                     Future.delayed(Duration.zero, () {
-                                      subjectCont.clear();
+                                      subjectController.clear();
                                     });
                                   },
                                   optionsViewBuilder: (
