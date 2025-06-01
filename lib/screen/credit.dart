@@ -5,9 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../model/department.dart';
 
 final scholoarshipProvider = StateProvider<String>((ref) => 'Default');
-final departmentProvider = StateProvider<String?>((ref) => null);
 final Map<String, int> items = {'BoT': 1750, 'VMSP': 1400, 'Default': 2200};
-final subjectProvider = StateProvider<List<Subject>>((ref) => []);
 
 final discountProvider = StateProvider<bool>((ref) => false);
 

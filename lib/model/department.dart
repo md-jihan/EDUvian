@@ -1,3 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final departmentProvider = StateProvider<String?>((ref) => null);
+final subjectProvider = StateProvider<List<Subject>>((ref) => []);
+
 final List<Subject> cseSubjects = [
   Subject("AA099", "Academic Reading and Writing", 0),
   Subject("AA150", "Fundamentals of Quantitative Reasoning", 0),
