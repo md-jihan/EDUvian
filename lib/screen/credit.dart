@@ -103,33 +103,9 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   Consumer(
                                     builder: (context, ref, child) {
                                       return RoundedField(
-                                        child: DropdownButtonFormField<String>(
-                                          value: ref.watch(
-                                            scholoarshipProvider,
-                                          ),
-                                          decoration: inputDecoration(),
-                                          dropdownColor: Colors.white,
-                                          iconEnabledColor: Colors.white,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                          items:
-                                              items.keys.map((value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
-                                          onChanged: (newValue) {
-                                            ref
-                                                .read(
-                                                  scholoarshipProvider.notifier,
-                                                )
-                                                .state = newValue!;
-                                          },
+                                        child: DropdownField(
+                                          ProviderName: scholoarshipProvider,
+                                          item: items.keys.toList(),
                                         ),
                                       );
                                     },
