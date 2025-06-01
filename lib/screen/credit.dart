@@ -391,21 +391,27 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                             totalCredit.toStringAsFixed(1),
                           ),
                           _infoRow('Apply Per Credit', rate.toStringAsFixed(0)),
-                          Row(
-                            children: [
-                              Checkbox(
-                                value: ref.watch(discountProvider),
-                                onChanged: (value) {
-                                  ref.read(discountProvider.notifier).state =
-                                      value ?? false;
-                                },
-                                activeColor: Colors.tealAccent,
-                              ),
-                              const Text(
-                                'Apply 5% Discount',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ],
+                          GestureDetector(
+                            onTap: () {
+                              ref.read(discountProvider.notifier).state =
+                                  !ref.read(discountProvider);
+                            },
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                  value: ref.watch(discountProvider),
+                                  onChanged: (value) {
+                                    ref.read(discountProvider.notifier).state =
+                                        value ?? false;
+                                  },
+                                  activeColor: Colors.tealAccent,
+                                ),
+                                const Text(
+                                  'Apply 5% Discount',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            ),
                           ),
                           _infoRow(
                             'Total Cost: ',
