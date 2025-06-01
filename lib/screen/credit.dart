@@ -1,3 +1,4 @@
+import 'package:eduvian/model/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -106,7 +107,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           value: ref.watch(
                                             scholoarshipProvider,
                                           ),
-                                          decoration: _inputDecoration(),
+                                          decoration: inputDecoration(),
                                           dropdownColor: Colors.white,
                                           iconEnabledColor: Colors.white,
                                           style: const TextStyle(
@@ -154,7 +155,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                       return RoundedField(
                                         child: DropdownButtonFormField<String>(
                                           value: ref.watch(departmentProvider),
-                                          decoration: _inputDecoration(),
+                                          decoration: inputDecoration(),
                                           dropdownColor: Colors.white,
                                           iconEnabledColor: Colors.white,
                                           style: const TextStyle(
@@ -483,19 +484,5 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
         Text(value, style: const TextStyle(color: Colors.black)),
       ],
     ),
-  );
-
-  InputDecoration _inputDecoration() => InputDecoration(
-    filled: true,
-    fillColor: Colors.white.withOpacity(0.2),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: Colors.white.withOpacity(0.4)),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: Colors.white),
-    ),
-    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
   );
 }
