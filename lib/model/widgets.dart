@@ -71,3 +71,12 @@ class DropdownField extends ConsumerWidget {
     );
   }
 }
+
+InputDecoration fieldDecoration({String? hint, IconData? icon}) =>
+    InputDecoration(
+      hintText: hint,
+      hintStyle: const TextStyle(color: Colors.white70),
+      prefixIcon: icon != null ? Icon(icon, color: Colors.white) : null,
+      border: InputBorder.none,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    );

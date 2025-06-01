@@ -129,42 +129,13 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   Consumer(
                                     builder: (context, ref, child) {
                                       return RoundedField(
-                                        child: DropdownButtonFormField<String>(
-                                          value: ref.watch(departmentProvider),
-                                          decoration: inputDecoration(),
-                                          dropdownColor: Colors.white,
-                                          iconEnabledColor: Colors.white,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                          items: [
-                                            DropdownMenuItem<String>(
-                                              value: null,
-                                              child: Text(
-                                                'Select a department',
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ),
-                                            ...department.keys.map((value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          ],
-                                          onChanged: (newValue) {
+                                        child: DropdownField(
+                                          ProviderName: departmentProvider,
+                                          item: department.keys.toList(),
+                                          hintText: "Select a department",
+                                          onChangeExtra: (ref, newValue) {
                                             ref
-                                                .read(
-                                                  departmentProvider.notifier,
-                                                )
-                                                .state = newValue;
-                                            ref
-                                                .read(subjectProvider.notifier)
+                                                .watch(subjectProvider.notifier)
                                                 .state = [];
                                           },
                                         ),
@@ -234,7 +205,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                             );
                                       },
                                       onEditingComplete: onEditingComplete,
-                                      decoration: _fieldDecoration(
+                                      decoration: fieldDecoration(
                                         hint: 'Search Subject',
                                         icon: Icons.search,
                                       ),
@@ -404,18 +375,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
       ),
     );
   }
-
-  InputDecoration _fieldDecoration({String? hint, IconData? icon}) =>
-      InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(color: Colors.white70),
-        prefixIcon: icon != null ? Icon(icon, color: Colors.white) : null,
-        border: InputBorder.none,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
-        ),
-      );
 
   Widget _subjectTile(Subject subject, WidgetRef ref) => Container(
     margin: const EdgeInsets.symmetric(vertical: 3),
