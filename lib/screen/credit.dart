@@ -159,125 +159,132 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                           Consumer(
                             builder: (context, ref, child) {
                               return RoundedField(
-                                child: Autocomplete<Subject>(
-                                  optionsBuilder: (
-                                    TextEditingValue subjectName,
-                                  ) {
-                                    final departmentf = ref.watch(
-                                      departmentProvider,
-                                    );
-                                    final departmentList =
-                                        department[departmentf] ?? [];
-                                    if (departmentf == '') {
-                                      return const Iterable<Subject>.empty();
-                                    }
-                                    if (subjectName.text.trim().isEmpty) {
-                                      return departmentList;
-                                    }
-                                    return departmentList.where(
-                                      (subject) =>
-                                          subject.Code.toLowerCase().contains(
-                                            subjectName.text.toLowerCase(),
-                                          ) ||
-                                          subject.Title.toLowerCase().contains(
-                                            subjectName.text.toLowerCase(),
-                                          ),
-                                    );
-                                  },
-                                  displayStringForOption:
-                                      (Subject option) =>
-                                          '${option.Code} ${option.Title}',
-
-                                  fieldViewBuilder: (
-                                    context,
-                                    controller,
-                                    focuseNode,
-                                    onEditingComplete,
-                                  ) {
-                                    return TextField(
-                                      controller: controller,
-                                      focusNode: focuseNode,
-                                      onTap: () {
-                                        controller.clear(); // clear directly
-                                        controller.selection =
-                                            TextSelection.collapsed(
-                                              offset: controller.text.length,
-                                            );
-                                      },
-                                      onEditingComplete: onEditingComplete,
-                                      decoration: fieldDecoration(
-                                        hint: 'Search Subject',
-                                        icon: Icons.search,
-                                      ),
-                                    );
-                                  },
-                                  onSelected: (Subject subjects) {
-                                    final current = ref.read(subjectProvider);
-
-                                    if (!current.contains(subjects)) {
-                                      ref
-                                          .read(subjectProvider.notifier)
-                                          .state = [...current, subjects];
-                                    }
-                                  },
-                                  optionsViewBuilder: (
-                                    context,
-                                    onSelected,
-                                    options,
-                                  ) {
-                                    return Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Material(
-                                        elevation: 4.0,
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white,
-                                        child: ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                            maxHeight: ((options.length * 50.0)
-                                                .clamp(0, 5 * 50.0)),
-                                            maxWidth:
-                                                (MediaQuery.of(
-                                                  context,
-                                                ).size.width) *
-                                                0.915,
-                                          ),
-                                          child: ListView.builder(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 4,
-                                            ),
-                                            itemCount: options.length,
-                                            itemBuilder: (context, index) {
-                                              final option = options.elementAt(
-                                                index,
-                                              );
-                                              return ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                      horizontal: 16,
-                                                    ),
-                                                title: Text(
-                                                  option.toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                                onTap: () => onSelected(option),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                focusColor: Colors.teal.shade100
-                                                    .withOpacity(0.3),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                child: SubjectAutoComplete(
+                                  departmentProvider: departmentProvider,
+                                  departmentMap: department,
+                                  subjectProvider: subjectProvider,
+                                  fieldDecoration: fieldDecoration,
                                 ),
                               );
+                              //  child: Autocomplete<Subject>(
+                              //     optionsBuilder: (
+                              //       TextEditingValue subjectName,
+                              //     ) {
+                              //       final departmentf = ref.watch(
+                              //         departmentProvider,
+                              //       );
+                              //       final departmentList =
+                              //           department[departmentf] ?? [];
+                              //       if (departmentf == '') {
+                              //         return const Iterable<Subject>.empty();
+                              //       }
+                              //       if (subjectName.text.trim().isEmpty) {
+                              //         return departmentList;
+                              //       }
+                              //       return departmentList.where(
+                              //         (subject) =>
+                              //             subject.Code.toLowerCase().contains(
+                              //               subjectName.text.toLowerCase(),
+                              //             ) ||
+                              //             subject.Title.toLowerCase().contains(
+                              //               subjectName.text.toLowerCase(),
+                              //             ),
+                              //       );
+                              //     },
+                              //     displayStringForOption:
+                              //         (Subject option) =>
+                              //             '${option.Code} ${option.Title}',
+
+                              //     fieldViewBuilder: (
+                              //       context,
+                              //       controller,
+                              //       focuseNode,
+                              //       onEditingComplete,
+                              //     ) {
+                              //       return TextField(
+                              //         controller: controller,
+                              //         focusNode: focuseNode,
+                              //         onTap: () {
+                              //           controller.clear(); // clear directly
+                              //           controller.selection =
+                              //               TextSelection.collapsed(
+                              //                 offset: controller.text.length,
+                              //               );
+                              //         },
+                              //         onEditingComplete: onEditingComplete,
+                              //         decoration: fieldDecoration(
+                              //           hint: 'Search Subject',
+                              //           icon: Icons.search,
+                              //         ),
+                              //       );
+                              //     },
+                              //     onSelected: (Subject subjects) {
+                              //       final current = ref.read(subjectProvider);
+
+                              //       if (!current.contains(subjects)) {
+                              //         ref
+                              //             .read(subjectProvider.notifier)
+                              //             .state = [...current, subjects];
+                              //       }
+                              //     },
+                              //     optionsViewBuilder: (
+                              //       context,
+                              //       onSelected,
+                              //       options,
+                              //     ) {
+                              //       return Align(
+                              //         alignment: Alignment.topLeft,
+                              //         child: Material(
+                              //           elevation: 4.0,
+                              //           borderRadius: BorderRadius.circular(10),
+                              //           color: Colors.white,
+                              //           child: ConstrainedBox(
+                              //             constraints: BoxConstraints(
+                              //               maxHeight: ((options.length * 50.0)
+                              //                   .clamp(0, 5 * 50.0)),
+                              //               maxWidth:
+                              //                   (MediaQuery.of(
+                              //                     context,
+                              //                   ).size.width) *
+                              //                   0.915,
+                              //             ),
+                              //             child: ListView.builder(
+                              //               padding: EdgeInsets.symmetric(
+                              //                 vertical: 4,
+                              //               ),
+                              //               itemCount: options.length,
+                              //               itemBuilder: (context, index) {
+                              //                 final option = options.elementAt(
+                              //                   index,
+                              //                 );
+                              //                 return ListTile(
+                              //                   contentPadding:
+                              //                       EdgeInsets.symmetric(
+                              //                         horizontal: 16,
+                              //                       ),
+                              //                   title: Text(
+                              //                     option.toString(),
+                              //                     style: TextStyle(
+                              //                       fontSize: 15,
+                              //                       fontWeight: FontWeight.w500,
+                              //                     ),
+                              //                   ),
+                              //                   onTap: () => onSelected(option),
+                              //                   shape: RoundedRectangleBorder(
+                              //                     borderRadius:
+                              //                         BorderRadius.circular(8),
+                              //                   ),
+                              //                   focusColor: Colors.teal.shade100
+                              //                       .withOpacity(0.3),
+                              //                 );
+                              //               },
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       );
+                              //     },
+                              //   ),
+                              // );
                             },
                           ),
 
