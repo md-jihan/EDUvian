@@ -252,20 +252,11 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                       controller: controller,
                                       focusNode: focuseNode,
                                       onTap: () {
-                                        if (controller.text.isNotEmpty) {
-                                          controller.clear();
-                                        }
-                                        controller.text = ' ';
+                                        controller.clear(); // clear directly
                                         controller.selection =
                                             TextSelection.collapsed(
                                               offset: controller.text.length,
                                             );
-                                        Future.delayed(
-                                          const Duration(milliseconds: 100),
-                                          () {
-                                            controller.clear();
-                                          },
-                                        );
                                       },
                                       onEditingComplete: onEditingComplete,
                                       decoration: _fieldDecoration(
@@ -296,7 +287,8 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                         color: Colors.white,
                                         child: ConstrainedBox(
                                           constraints: BoxConstraints(
-                                            maxHeight: 5 * 50.0,
+                                            maxHeight: ((options.length * 50.0)
+                                                .clamp(0, 5 * 50.0)),
                                             maxWidth:
                                                 (MediaQuery.of(
                                                   context,
