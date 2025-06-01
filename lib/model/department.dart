@@ -295,3 +295,5 @@ class Subject {
   @override
   String toString() => '$Code - $Title';
 }
+
+class _departmentField {}
