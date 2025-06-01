@@ -305,7 +305,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           ),
                                           child: ListView.builder(
                                             padding: EdgeInsets.symmetric(
-                                              vertical: 4,
+                                              vertical: 2,
                                             ),
                                             itemCount: options.length,
                                             itemBuilder: (context, index) {
