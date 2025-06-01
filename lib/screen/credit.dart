@@ -305,7 +305,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                           ),
                                           child: ListView.builder(
                                             padding: EdgeInsets.symmetric(
-                                              vertical: 2,
+                                              vertical: 4,
                                             ),
                                             itemCount: options.length,
                                             itemBuilder: (context, index) {
@@ -452,7 +452,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
   );
 
   Widget _subjectTile(Subject subject, WidgetRef ref) => Container(
-    margin: const EdgeInsets.symmetric(vertical: 6),
+    margin: const EdgeInsets.symmetric(vertical: 3),
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
