@@ -101,7 +101,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   const SizedBox(height: 5),
                                   Consumer(
                                     builder: (context, ref, child) {
-                                      return _roundedField(
+                                      return RoundedField(
                                         child: DropdownButtonFormField<String>(
                                           value: ref.watch(
                                             scholoarshipProvider,
@@ -151,7 +151,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                                   const SizedBox(height: 5),
                                   Consumer(
                                     builder: (context, ref, child) {
-                                      return _roundedField(
+                                      return RoundedField(
                                         child: DropdownButtonFormField<String>(
                                           value: ref.watch(departmentProvider),
                                           decoration: _inputDecoration(),
@@ -210,7 +210,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                         if (ref.watch(departmentProvider) != null)
                           Consumer(
                             builder: (context, ref, child) {
-                              return _roundedField(
+                              return RoundedField(
                                 child: Autocomplete<Subject>(
                                   optionsBuilder: (
                                     TextEditingValue subjectName,
@@ -439,13 +439,6 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
           vertical: 14,
         ),
       );
-  Widget _roundedField({required Widget child}) => Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(16),
-      color: Colors.white.withOpacity(0.3),
-    ),
-    child: child,
-  );
 
   Widget _subjectTile(Subject subject, WidgetRef ref) => Container(
     margin: const EdgeInsets.symmetric(vertical: 3),

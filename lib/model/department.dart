@@ -298,3 +298,19 @@ class Subject {
 }
 
 class _departmentField {}
+
+class RoundedField extends StatelessWidget {
+  final Widget child;
+  const RoundedField({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.white.withOpacity(0.3),
+      ),
+      child: child,
+    );
+  }
+}
