@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RoundedField extends StatelessWidget {
   final Widget child;
@@ -29,3 +30,44 @@ InputDecoration inputDecoration() => InputDecoration(
   ),
   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
 );
+
+class DropdownField extends ConsumerWidget {
+  final StateProvider<String?> ProviderName;
+  final List<String> item;
+  final String? hintText;
+  final void Function(WidgetRef ref, String?)? onChangeExtra;
+  const DropdownField({
+    Key? key,
+    required this.ProviderName,
+    required this.item,
+    this.hintText,
+    this.onChangeExtra,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectValue = ref.watch(ProviderName);
+    return DropdownButtonFormField<String>(
+      value: selectValue,
+      decoration: inputDecoration(),
+      dropdownColor: Colors.white,
+      iconEnabledColor: Colors.white,
+      style: const TextStyle(color: Colors.black),
+      borderRadius: BorderRadius.circular(8),
+      items: [
+        if (hintText != null)
+          DropdownMenuItem<String>(value: null, child: Text(hintText!)),
+
+        ...item.map((value) {
+          return DropdownMenuItem<String>(value: value, child: Text(value));
+        }).toList(),
+      ],
+      onChanged: (newValue) {
+        ref.read(ProviderName.notifier).state = newValue!;
+        if (onChangeExtra != null) {
+          onChangeExtra!(ref, newValue);
+        }
+      },
+    );
+  }
+}
