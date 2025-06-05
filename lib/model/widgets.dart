@@ -12,7 +12,9 @@ class RoundedField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: BoxShadow(color: Colors.black, offset: 0, blurRadius: 3),
+        boxShadow: [
+          BoxShadow(color: Colors.black, offset: Offset(2, 2), blurRadius: 3),
+        ],
         borderRadius: BorderRadius.circular(10),
       ),
       child: child,
