@@ -13,53 +13,61 @@ class HomeScreen extends StatelessWidget {
       appBar: appBar(context, "EDUvian"),
       body: SafeArea(
         child: Container(
+          width: double.infinity,
+          height: double.infinity,
           decoration: BoxDecoration(
             color: offWhite,
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.all(16.0),
-          child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 5,
-            crossAxisSpacing: 5,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Wrap(
+                spacing: 10,
 
-            childAspectRatio: 3.2, // Slim buttons
-            children: [
-              _buildSmallButton(
-                icon: Icons.calculate,
-                label: 'Credit & Cost Calculator',
-                color: primaryColor,
-                onTap: () => context.push("/credit"),
+                runSpacing: 10,
+                children: [
+                  _buildSmallButton(
+                    context,
+                    icon: Icons.calculate,
+                    label: 'Credit & Cost Calculator',
+                    color: primaryColor,
+                    onTap: "/credit",
+                  ),
+                  _buildSmallButton(
+                    context,
+                    icon: Icons.calculate,
+                    label: 'Credit & Cost Calculator',
+                    color: primaryColor,
+                    onTap: "/credit",
+                  ),
+                  _buildSmallButton(
+                    context,
+                    icon: Icons.calculate,
+                    label: 'Credit & Cost Calculator',
+                    color: primaryColor,
+                    onTap: "/credit",
+                  ),
+                ],
               ),
-              _buildSmallButton(
-                icon: Icons.calculate,
-                label: 'Credit & Cost Calculator',
-                color: primaryColor,
-                onTap: () => context.push("/credit"),
-              ),
-              _buildSmallButton(
-                icon: Icons.calculate,
-                label: 'Credit & Cost Calculator',
-                color: primaryColor,
-                onTap: () => context.push("/credit"),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildSmallButton({
+  Widget _buildSmallButton(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required Color color,
-    required VoidCallback onTap,
+    required String onTap,
   }) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
+    return GestureDetector(
+      onTap: () => context.push(onTap),
       child: Container(
+        width: MediaQuery.of(context).size.width / 2 - 36,
         decoration: BoxDecoration(
           color: color.withOpacity(0.9),
           borderRadius: BorderRadius.circular(12),
@@ -74,18 +82,18 @@ class HomeScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Center(
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 16, color: Colors.white),
-              const SizedBox(width: 8),
-              Flexible(
+              Icon(icon, size: 20, color: Colors.white),
+              const SizedBox(width: 5),
+              Expanded(
                 child: Text(
                   label,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: const TextStyle(
                     color: Colors.white,
-
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
