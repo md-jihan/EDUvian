@@ -27,7 +27,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
         child: Container(
           decoration: BoxDecoration(
             color: offWhite,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           padding: EdgeInsets.all(10),
           child: Column(
@@ -231,7 +231,13 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
             style: const TextStyle(color: Colors.black),
           ),
         ),
-        Text('${subject.Credit}', style: const TextStyle(color: Colors.black)),
+        Text(
+          '${subject.Credit}',
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         IconButton(
           onPressed: () {
             final update =

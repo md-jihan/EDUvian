@@ -9,10 +9,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: offWhite,
+      backgroundColor: primaryColor,
       appBar: appBar(context, "EDUvian"),
       body: SafeArea(
-        child: Padding(
+        child: Container(
+          decoration: BoxDecoration(
+            color: offWhite,
+            borderRadius: BorderRadius.circular(12),
+          ),
           padding: const EdgeInsets.all(16.0),
           child: GridView.count(
             crossAxisCount: 2,
@@ -22,25 +26,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               _buildSmallButton(
                 icon: Icons.calculate,
-                label: 'CGPA',
-                color: primaryColor,
-                onTap: () => context.push("/credit"),
-              ),
-              _buildSmallButton(
-                icon: Icons.search,
-                label: 'Search',
-                color: primaryColor,
-                onTap: () => context.push("/credit"),
-              ),
-              _buildSmallButton(
-                icon: Icons.monetization_on,
-                onTap: () => context.push("/credit"),
-                label: 'Fees',
-                color: primaryColor,
-              ),
-              _buildSmallButton(
-                icon: Icons.settings,
-                label: 'Settings',
+                label: 'Credit & Cost Calculator',
                 color: primaryColor,
                 onTap: () => context.push("/credit"),
               ),
