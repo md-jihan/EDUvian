@@ -20,10 +20,10 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: GridView.count(
             crossAxisCount: 2,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
+            mainAxisSpacing: 5,
+            crossAxisSpacing: 5,
 
-            childAspectRatio: 3.2, // Slim buttons
+            childAspectRatio: 4.2, // Slim buttons
             children: [
               _buildSmallButton(
                 icon: Icons.calculate,
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
