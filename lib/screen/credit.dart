@@ -29,119 +29,103 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
             color: offWhite,
             borderRadius: BorderRadius.circular(10),
           ),
-
+          padding: EdgeInsets.all(10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Select Scholarship',
-                                  style: TextStyle(
-                                    color: primaryColor,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Consumer(
-                                  builder: (context, ref, child) {
-                                    return RoundedField(
-                                      child: DropdownField(
-                                        ProviderName: scholoarshipProvider,
-                                        item: items.keys.toList(),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Select Department',
-                                  style: TextStyle(
-                                    color: primaryColor,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Consumer(
-                                  builder: (context, ref, child) {
-                                    return RoundedField(
-                                      child: DropdownField(
-                                        ProviderName: departmentProvider,
-                                        item: department.keys.toList(),
-                                        hintText: "Select a department",
-                                        onChangeExtra: (ref, newValue) {
-                                          ref
-                                              .watch(subjectProvider.notifier)
-                                              .state = [];
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      if (ref.watch(departmentProvider) != null)
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         const Text(
-                          'Search Subject',
+                          'Select Scholarship',
                           style: TextStyle(color: primaryColor, fontSize: 16),
                         ),
-
-                      const SizedBox(height: 5),
-                      if (ref.watch(departmentProvider) != null)
+                        const SizedBox(height: 5),
                         Consumer(
                           builder: (context, ref, child) {
                             return RoundedField(
-                              child: SubjectAutoComplete(
-                                departmentProvider: departmentProvider,
-                                departmentMap: department,
-                                subjectProvider: subjectProvider,
-                                fieldDecoration: fieldDecoration,
+                              child: DropdownField(
+                                ProviderName: scholoarshipProvider,
+                                item: items.keys.toList(),
                               ),
                             );
                           },
                         ),
-
-                      Consumer(
-                        builder: (context, ref, child) {
-                          final selected = ref.watch(subjectProvider);
-
-                          return Expanded(
-                            child: SingleChildScrollView(
-                              child: ListView.builder(
-                                itemCount: selected.length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  final subject = selected[index];
-                                  return _subjectTile(subject, ref);
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Select Department',
+                          style: TextStyle(color: primaryColor, fontSize: 16),
+                        ),
+                        const SizedBox(height: 5),
+                        Consumer(
+                          builder: (context, ref, child) {
+                            return RoundedField(
+                              child: DropdownField(
+                                ProviderName: departmentProvider,
+                                item: department.keys.toList(),
+                                hintText: "Select a department",
+                                onChangeExtra: (ref, newValue) {
+                                  ref.watch(subjectProvider.notifier).state =
+                                      [];
                                 },
                               ),
-                            ),
-                          );
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              // if (ref.watch(departmentProvider) != null)
+              //   const Text(
+              //     'Search Subject',
+              //     style: TextStyle(color: primaryColor, fontSize: 16),
+              //   ),
+              const SizedBox(height: 15),
+              if (ref.watch(departmentProvider) != null)
+                Consumer(
+                  builder: (context, ref, child) {
+                    return RoundedField(
+                      child: SubjectAutoComplete(
+                        departmentProvider: departmentProvider,
+                        departmentMap: department,
+                        subjectProvider: subjectProvider,
+                        fieldDecoration: fieldDecoration,
+                      ),
+                    );
+                  },
+                ),
+              const SizedBox(height: 5),
+              Consumer(
+                builder: (context, ref, child) {
+                  final selected = ref.watch(subjectProvider);
+
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: ListView.builder(
+                        itemCount: selected.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final subject = selected[index];
+                          return _subjectTile(subject, ref);
                         },
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
 
               Consumer(
@@ -159,15 +143,15 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                   return Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.5),
-                      //border: Border.all(color: Colors.white, width: 2),
-                      border: BorderDirectional(
-                        top: BorderSide(width: 2, color: Colors.white),
+                      color: offWhite,
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.3),
+                        width: 1,
                       ),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
+                      // border: BorderDirectional(
+                      //   top: BorderSide(width: 2, color: Colors.white),
+                      // ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     child: Column(
                       children: [
@@ -216,13 +200,34 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
-      color: Colors.white.withOpacity(0.5),
+      color: offWhite,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black54,
+          offset: Offset(2, 3),
+          blurRadius: 10,
+          blurStyle: BlurStyle.solid,
+        ),
+      ],
     ),
+
     child: Row(
       children: [
+        Container(
+          decoration: BoxDecoration(
+            color: primaryColor,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          padding: EdgeInsets.all(5),
+          child: Text(
+            "${subject.Code}",
+            style: TextStyle(color: offWhite, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(width: 5),
         Expanded(
           child: Text(
-            '${subject.Code} - ${subject.Title}',
+            '${subject.Title}',
             style: const TextStyle(color: Colors.black),
           ),
         ),
