@@ -15,10 +15,9 @@ class RoundedField extends StatelessWidget {
         color: offWhite,
         boxShadow: [
           BoxShadow(
-            color: Colors.black45,
-            offset: Offset(0.2, 0.5),
-            blurRadius: 3,
-            spreadRadius: 0,
+            color: Colors.black12.withOpacity(0.25),
+            offset: Offset(0.1, 0.2),
+            blurRadius: 4,
           ),
         ],
         borderRadius: BorderRadius.circular(10),
@@ -33,11 +32,11 @@ InputDecoration inputDecoration() => InputDecoration(
   fillColor: offWhite,
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(color: Colors.black.withOpacity(0.4)),
+    borderSide: BorderSide.none,
   ),
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(color: Colors.black.withOpacity(0.4)),
+    borderSide: BorderSide.none,
   ),
   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
 );

@@ -203,9 +203,9 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
       color: offWhite,
       boxShadow: [
         BoxShadow(
-          color: Colors.black54,
-          offset: Offset(2, 3),
-          blurRadius: 10,
+          color: Colors.black54.withOpacity(0.25),
+          offset: Offset(1, 1.5),
+          blurRadius: 4,
           blurStyle: BlurStyle.solid,
         ),
       ],

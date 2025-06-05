@@ -41,6 +41,14 @@ class HomeScreen extends StatelessWidget {
                     color: primaryColor,
                     onTap: "/credit",
                   ),
+
+                  _buildSmallButton(
+                    context,
+                    icon: Icons.calculate,
+                    label: 'Credit & Cost Calculator',
+                    color: primaryColor,
+                    onTap: "/credit",
+                  ),
                   _buildSmallButton(
                     context,
                     icon: Icons.calculate,
@@ -67,7 +75,7 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push(onTap),
       child: Container(
-        width: MediaQuery.of(context).size.width / 2 - 36,
+        width: MediaQuery.of(context).size.width / 2 - 30,
         decoration: BoxDecoration(
           color: color.withOpacity(0.9),
           borderRadius: BorderRadius.circular(12),
@@ -85,7 +93,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 20, color: Colors.white),
+              Icon(icon, size: 30, color: Colors.white),
               const SizedBox(width: 5),
               Expanded(
                 child: Text(
@@ -94,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                   maxLines: 2,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
