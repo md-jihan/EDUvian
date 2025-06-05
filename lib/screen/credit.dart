@@ -144,10 +144,17 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: offWhite,
-                      border: Border.all(
-                        color: Colors.black.withOpacity(0.3),
-                        width: 1,
-                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          offset: Offset(0.1, 0.2),
+                          blurRadius: 5,
+                        ),
+                      ],
+                      // border: Border.all(
+                      //   color: Colors.black.withOpacity(0.3),
+                      //   width: 1,
+                      // ),
                       // border: BorderDirectional(
                       //   top: BorderSide(width: 2, color: Colors.white),
                       // ),
