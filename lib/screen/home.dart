@@ -20,10 +20,23 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: GridView.count(
             crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: 3.2, // Slim buttons
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+
+            childAspectRatio: 3, // Slim buttons
             children: [
+              _buildSmallButton(
+                icon: Icons.calculate,
+                label: 'Credit & Cost Calculator',
+                color: primaryColor,
+                onTap: () => context.push("/credit"),
+              ),
+              _buildSmallButton(
+                icon: Icons.calculate,
+                label: 'Credit & Cost Calculator',
+                color: primaryColor,
+                onTap: () => context.push("/credit"),
+              ),
               _buildSmallButton(
                 icon: Icons.calculate,
                 label: 'Credit & Cost Calculator',
@@ -58,6 +71,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+        padding: EdgeInsets.all(15),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
