@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
             childAspectRatio: 3.2, // Slim buttons
             children: [
               _buildSmallButton(
-                icon: Icons.calculate,
+                icon: Icons.abc,
                 label: 'Credit & Cost Calculator',
                 color: primaryColor,
                 onTap: () => context.push("/credit"),

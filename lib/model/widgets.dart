@@ -64,11 +64,7 @@ class DropdownField extends ConsumerWidget {
       dropdownColor: offWhite,
       icon: Icon(Icons.keyboard_arrow_down_rounded),
       iconEnabledColor: Colors.black,
-      style: const TextStyle(
-        color: Colors.black,
-        fontFamily: 'Roboto',
-        fontWeight: FontWeight.w600,
-      ),
+      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
       borderRadius: BorderRadius.circular(8),
       items: [
         if (hintText != null)
