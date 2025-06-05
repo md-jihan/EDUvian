@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisSpacing: 5,
             crossAxisSpacing: 5,
 
-            childAspectRatio: 4.2, // Slim buttons
+            childAspectRatio: 3.2, // Slim buttons
             children: [
               _buildSmallButton(
                 icon: Icons.calculate,
