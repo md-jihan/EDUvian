@@ -15,7 +15,7 @@ class RoundedField extends StatelessWidget {
         color: offWhite,
         boxShadow: [
           BoxShadow(
-            color: Colors.black,
+            color: Colors.black45,
             offset: Offset(0.2, 0.5),
             blurRadius: 3,
             spreadRadius: 0,
@@ -166,11 +166,11 @@ class SubjectAutoComplete extends ConsumerWidget {
           child: Material(
             elevation: 4.0,
             borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
+            color: offWhite,
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxHeight: ((options.length * 50.0).clamp(0, 5 * 50.0)),
-                maxWidth: (MediaQuery.of(context).size.width) * 0.915,
+                maxWidth: (MediaQuery.of(context).size.width) * 0.965,
               ),
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 4),

@@ -41,7 +41,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                       children: [
                         const Text(
                           'Select Scholarship',
-                          style: TextStyle(color: primaryColor, fontSize: 16),
+                          style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         const SizedBox(height: 5),
                         Consumer(
@@ -64,7 +64,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                       children: [
                         const Text(
                           'Select Department',
-                          style: TextStyle(color: primaryColor, fontSize: 16),
+                          style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         const SizedBox(height: 5),
                         Consumer(
@@ -196,10 +196,10 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
   }
 
   Widget _subjectTile(Subject subject, WidgetRef ref) => Container(
-    margin: const EdgeInsets.symmetric(vertical: 3),
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+    margin: const EdgeInsets.symmetric(vertical: 4),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(12),
       color: offWhite,
       boxShadow: [
         BoxShadow(
