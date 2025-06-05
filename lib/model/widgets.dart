@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'department.dart';
 
@@ -11,8 +12,8 @@ class RoundedField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        boxShadow: BoxShadow(color: Colors.black, offset: 0, blurRadius: 3),
         borderRadius: BorderRadius.circular(10),
-        color: Colors.white.withOpacity(0.3),
       ),
       child: child,
     );
@@ -21,14 +22,14 @@ class RoundedField extends StatelessWidget {
 
 InputDecoration inputDecoration() => InputDecoration(
   filled: true,
-  fillColor: Colors.white.withOpacity(0.2),
+  fillColor: offWhite,
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: BorderSide(color: Colors.white.withOpacity(0.4)),
+    borderSide: BorderSide(color: Colors.black.withOpacity(0.4)),
   ),
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
-    borderSide: const BorderSide(color: Colors.white),
+    borderSide: BorderSide(color: Colors.black.withOpacity(0.4)),
   ),
   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
 );
@@ -52,9 +53,14 @@ class DropdownField extends ConsumerWidget {
     return DropdownButtonFormField<String>(
       value: selectValue,
       decoration: inputDecoration(),
-      dropdownColor: Colors.white,
-      iconEnabledColor: Colors.white,
-      style: const TextStyle(color: Colors.black),
+      dropdownColor: offWhite,
+      icon: Icon(Icons.keyboard_arrow_down_rounded),
+      iconEnabledColor: Colors.black,
+      style: const TextStyle(
+        color: Colors.black,
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.w600,
+      ),
       borderRadius: BorderRadius.circular(8),
       items: [
         if (hintText != null)
@@ -77,8 +83,8 @@ class DropdownField extends ConsumerWidget {
 InputDecoration fieldDecoration({String? hint, IconData? icon}) =>
     InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(color: Colors.white70),
-      prefixIcon: icon != null ? Icon(icon, color: Colors.white) : null,
+      hintStyle: const TextStyle(color: Colors.black45),
+      prefixIcon: icon != null ? Icon(icon, color: Colors.black54) : null,
       border: InputBorder.none,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     );
@@ -187,3 +193,24 @@ class SubjectAutoComplete extends ConsumerWidget {
     );
   }
 }
+
+const primaryColor = Color.fromRGBO(107, 0, 50, 1);
+const offWhite = Color.fromRGBO(255, 249, 242, 1);
+AppBar appBar(BuildContext context, String title) => AppBar(
+  backgroundColor: primaryColor,
+  elevation: 0,
+  title: Text(
+    "${title}",
+    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+  ),
+  leading:
+      GoRouter.of(context).canPop()
+          ? IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+          )
+          : null,
+  centerTitle: true,
+);

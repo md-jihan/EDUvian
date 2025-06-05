@@ -1,7 +1,6 @@
 import 'package:eduvian/model/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../model/department.dart';
 
@@ -21,362 +20,191 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F2027),
-      appBar: AppBar(
-        //extendBodyBehindAppBar: true,
-        title: Text(
-          'EDUvian',
-          style: TextStyle(
-            shadows: [
-              Shadow(
-                blurRadius: 2,
-                color: const Color.fromARGB(97, 0, 0, 0),
-                offset: Offset(2.0, 2.0),
-              ),
-            ],
-          ),
-        ),
-        elevation: 0,
-        backgroundColor: Color.fromRGBO(203, 4, 4, 1),
-        foregroundColor: Colors.white,
-
-        leading: IconButton(
-          padding: EdgeInsets.all(0),
-          onPressed: () {
-            context.pop();
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            shadows: [
-              Shadow(
-                blurRadius: 2,
-                color: const Color.fromARGB(97, 0, 0, 0),
-                offset: Offset(2.0, 2.0),
-              ),
-            ],
-          ),
-        ),
-      ),
+      backgroundColor: primaryColor,
+      appBar: appBar(context, "EDUvian"),
 
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xff309898),
-                Color.fromARGB(255, 74, 193, 193),
-                Color.fromARGB(255, 231, 173, 146),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+          decoration: BoxDecoration(
+            color: offWhite,
+            borderRadius: BorderRadius.circular(10),
           ),
-          padding: const EdgeInsets.all(10),
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(104, 255, 255, 255),
-              border: Border.all(color: Colors.white, width: 2),
-              borderRadius: BorderRadius.circular(10),
-            ),
 
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Select Scholarship',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Consumer(
-                                    builder: (context, ref, child) {
-                                      return RoundedField(
-                                        child: DropdownField(
-                                          ProviderName: scholoarshipProvider,
-                                          item: items.keys.toList(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Select Department',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Consumer(
-                                    builder: (context, ref, child) {
-                                      return RoundedField(
-                                        child: DropdownField(
-                                          ProviderName: departmentProvider,
-                                          item: department.keys.toList(),
-                                          hintText: "Select a department",
-                                          onChangeExtra: (ref, newValue) {
-                                            ref
-                                                .watch(subjectProvider.notifier)
-                                                .state = [];
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        if (ref.watch(departmentProvider) != null)
-                          const Text(
-                            'Search Subject',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-
-                        const SizedBox(height: 5),
-                        if (ref.watch(departmentProvider) != null)
-                          Consumer(
-                            builder: (context, ref, child) {
-                              return RoundedField(
-                                child: SubjectAutoComplete(
-                                  departmentProvider: departmentProvider,
-                                  departmentMap: department,
-                                  subjectProvider: subjectProvider,
-                                  fieldDecoration: fieldDecoration,
-                                ),
-                              );
-                              //  child: Autocomplete<Subject>(
-                              //     optionsBuilder: (
-                              //       TextEditingValue subjectName,
-                              //     ) {
-                              //       final departmentf = ref.watch(
-                              //         departmentProvider,
-                              //       );
-                              //       final departmentList =
-                              //           department[departmentf] ?? [];
-                              //       if (departmentf == '') {
-                              //         return const Iterable<Subject>.empty();
-                              //       }
-                              //       if (subjectName.text.trim().isEmpty) {
-                              //         return departmentList;
-                              //       }
-                              //       return departmentList.where(
-                              //         (subject) =>
-                              //             subject.Code.toLowerCase().contains(
-                              //               subjectName.text.toLowerCase(),
-                              //             ) ||
-                              //             subject.Title.toLowerCase().contains(
-                              //               subjectName.text.toLowerCase(),
-                              //             ),
-                              //       );
-                              //     },
-                              //     displayStringForOption:
-                              //         (Subject option) =>
-                              //             '${option.Code} ${option.Title}',
-
-                              //     fieldViewBuilder: (
-                              //       context,
-                              //       controller,
-                              //       focuseNode,
-                              //       onEditingComplete,
-                              //     ) {
-                              //       return TextField(
-                              //         controller: controller,
-                              //         focusNode: focuseNode,
-                              //         onTap: () {
-                              //           controller.clear(); // clear directly
-                              //           controller.selection =
-                              //               TextSelection.collapsed(
-                              //                 offset: controller.text.length,
-                              //               );
-                              //         },
-                              //         onEditingComplete: onEditingComplete,
-                              //         decoration: fieldDecoration(
-                              //           hint: 'Search Subject',
-                              //           icon: Icons.search,
-                              //         ),
-                              //       );
-                              //     },
-                              //     onSelected: (Subject subjects) {
-                              //       final current = ref.read(subjectProvider);
-
-                              //       if (!current.contains(subjects)) {
-                              //         ref
-                              //             .read(subjectProvider.notifier)
-                              //             .state = [...current, subjects];
-                              //       }
-                              //     },
-                              //     optionsViewBuilder: (
-                              //       context,
-                              //       onSelected,
-                              //       options,
-                              //     ) {
-                              //       return Align(
-                              //         alignment: Alignment.topLeft,
-                              //         child: Material(
-                              //           elevation: 4.0,
-                              //           borderRadius: BorderRadius.circular(10),
-                              //           color: Colors.white,
-                              //           child: ConstrainedBox(
-                              //             constraints: BoxConstraints(
-                              //               maxHeight: ((options.length * 50.0)
-                              //                   .clamp(0, 5 * 50.0)),
-                              //               maxWidth:
-                              //                   (MediaQuery.of(
-                              //                     context,
-                              //                   ).size.width) *
-                              //                   0.915,
-                              //             ),
-                              //             child: ListView.builder(
-                              //               padding: EdgeInsets.symmetric(
-                              //                 vertical: 4,
-                              //               ),
-                              //               itemCount: options.length,
-                              //               itemBuilder: (context, index) {
-                              //                 final option = options.elementAt(
-                              //                   index,
-                              //                 );
-                              //                 return ListTile(
-                              //                   contentPadding:
-                              //                       EdgeInsets.symmetric(
-                              //                         horizontal: 16,
-                              //                       ),
-                              //                   title: Text(
-                              //                     option.toString(),
-                              //                     style: TextStyle(
-                              //                       fontSize: 15,
-                              //                       fontWeight: FontWeight.w500,
-                              //                     ),
-                              //                   ),
-                              //                   onTap: () => onSelected(option),
-                              //                   shape: RoundedRectangleBorder(
-                              //                     borderRadius:
-                              //                         BorderRadius.circular(8),
-                              //                   ),
-                              //                   focusColor: Colors.teal.shade100
-                              //                       .withOpacity(0.3),
-                              //                 );
-                              //               },
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       );
-                              //     },
-                              //   ),
-                              // );
-                            },
-                          ),
-
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final selected = ref.watch(subjectProvider);
-
-                            return Expanded(
-                              child: SingleChildScrollView(
-                                child: ListView.builder(
-                                  itemCount: selected.length,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final subject = selected[index];
-                                    return _subjectTile(subject, ref);
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Consumer(
-                  builder: (context, ref, child) {
-                    final selected = ref.watch(subjectProvider);
-                    final totalCredit = selected.fold<double>(
-                      0,
-                      (prev, subject) => prev + subject.Credit,
-                    );
-                    final rate = items[ref.watch(scholoarshipProvider)] ?? 0;
-                    double totalCost = rate * totalCredit;
-                    if (ref.watch(discountProvider)) {
-                      totalCost *= 0.95;
-                    }
-                    return Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.5),
-                        //border: Border.all(color: Colors.white, width: 2),
-                        border: BorderDirectional(
-                          top: BorderSide(width: 2, color: Colors.white),
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
-                        ),
-                      ),
-                      child: Column(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          _infoRow(
-                            'Total Credits: ',
-                            totalCredit.toStringAsFixed(1),
-                          ),
-                          _infoRow('Apply Per Credit', rate.toStringAsFixed(0)),
-                          GestureDetector(
-                            onTap: () {
-                              ref.read(discountProvider.notifier).state =
-                                  !ref.read(discountProvider);
-                            },
-                            child: Row(
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Checkbox(
-                                  value: ref.watch(discountProvider),
-                                  onChanged: (value) {
-                                    ref.read(discountProvider.notifier).state =
-                                        value ?? false;
-                                  },
-                                  activeColor: Colors.tealAccent,
-                                ),
                                 const Text(
-                                  'Apply 5% Discount',
-                                  style: TextStyle(color: Colors.black),
+                                  'Select Scholarship',
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Consumer(
+                                  builder: (context, ref, child) {
+                                    return RoundedField(
+                                      child: DropdownField(
+                                        ProviderName: scholoarshipProvider,
+                                        item: items.keys.toList(),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
                           ),
-                          _infoRow(
-                            'Total Cost: ',
-                            totalCost.toStringAsFixed(2),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Select Department',
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Consumer(
+                                  builder: (context, ref, child) {
+                                    return RoundedField(
+                                      child: DropdownField(
+                                        ProviderName: departmentProvider,
+                                        item: department.keys.toList(),
+                                        hintText: "Select a department",
+                                        onChangeExtra: (ref, newValue) {
+                                          ref
+                                              .watch(subjectProvider.notifier)
+                                              .state = [];
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    );
-                  },
+
+                      if (ref.watch(departmentProvider) != null)
+                        const Text(
+                          'Search Subject',
+                          style: TextStyle(color: primaryColor, fontSize: 16),
+                        ),
+
+                      const SizedBox(height: 5),
+                      if (ref.watch(departmentProvider) != null)
+                        Consumer(
+                          builder: (context, ref, child) {
+                            return RoundedField(
+                              child: SubjectAutoComplete(
+                                departmentProvider: departmentProvider,
+                                departmentMap: department,
+                                subjectProvider: subjectProvider,
+                                fieldDecoration: fieldDecoration,
+                              ),
+                            );
+                          },
+                        ),
+
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final selected = ref.watch(subjectProvider);
+
+                          return Expanded(
+                            child: SingleChildScrollView(
+                              child: ListView.builder(
+                                itemCount: selected.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final subject = selected[index];
+                                  return _subjectTile(subject, ref);
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+
+              Consumer(
+                builder: (context, ref, child) {
+                  final selected = ref.watch(subjectProvider);
+                  final totalCredit = selected.fold<double>(
+                    0,
+                    (prev, subject) => prev + subject.Credit,
+                  );
+                  final rate = items[ref.watch(scholoarshipProvider)] ?? 0;
+                  double totalCost = rate * totalCredit;
+                  if (ref.watch(discountProvider)) {
+                    totalCost *= 0.95;
+                  }
+                  return Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.5),
+                      //border: Border.all(color: Colors.white, width: 2),
+                      border: BorderDirectional(
+                        top: BorderSide(width: 2, color: Colors.white),
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        _infoRow(
+                          'Total Credits: ',
+                          totalCredit.toStringAsFixed(1),
+                        ),
+                        _infoRow('Apply Per Credit', rate.toStringAsFixed(0)),
+                        GestureDetector(
+                          onTap: () {
+                            ref.read(discountProvider.notifier).state =
+                                !ref.read(discountProvider);
+                          },
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: ref.watch(discountProvider),
+                                onChanged: (value) {
+                                  ref.read(discountProvider.notifier).state =
+                                      value ?? false;
+                                },
+                                activeColor: Colors.tealAccent,
+                              ),
+                              const Text(
+                                'Apply 5% Discount',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                        _infoRow('Total Cost: ', totalCost.toStringAsFixed(2)),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

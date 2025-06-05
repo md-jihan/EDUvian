@@ -15,13 +15,13 @@ class HomeScreen extends StatelessWidget {
               Shadow(
                 blurRadius: 2,
                 color: const Color.fromARGB(97, 0, 0, 0),
-                offset: Offset(2.0, 2.0),
+                offset: Offset(1.0, 1.0),
               ),
             ],
           ),
         ),
-        backgroundColor: const Color.fromRGBO(203, 4, 4, 1.000),
-        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromRGBO(107, 0, 50, 1.0),
+        foregroundColor: const Color.fromRGBO(255, 255, 255, 1),
       ),
 
       body: Container(
@@ -30,9 +30,9 @@ class HomeScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xff309898),
-              Color.fromARGB(255, 74, 193, 193),
-              Color.fromARGB(255, 231, 173, 146),
+              Color.fromRGBO(107, 0, 50, 1.0), // Primary
+              Color.fromRGBO(90, 0, 42, 1.0), // Slightly darker
+              Color.fromRGBO(130, 0, 60, 1.0),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
