@@ -151,13 +151,7 @@ class _CreditCalculationState extends ConsumerState<CreditCalculation> {
                           blurRadius: 5,
                         ),
                       ],
-                      // border: Border.all(
-                      //   color: Colors.black.withOpacity(0.3),
-                      //   width: 1,
-                      // ),
-                      // border: BorderDirectional(
-                      //   top: BorderSide(width: 2, color: Colors.white),
-                      // ),
+
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     child: Column(
