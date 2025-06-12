@@ -14,7 +14,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/credit',
         builder: (context, state) => const CreditCalculation(),
       ),
-      GoRoute(path: '/cgpa', builder: (context, state) => const Cgpa()),
+      GoRoute(
+        path: '/cgpa',
+        builder: (context, state) => const CgpaCalculation(),
+      ),
     ],
   );
 });

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Cgpa extends StatelessWidget {
-  const Cgpa({super.key});
+class CgpaCalculation extends StatelessWidget {
+  const CgpaCalculation({super.key});
 
   @override
   Widget build(BuildContext context) {
