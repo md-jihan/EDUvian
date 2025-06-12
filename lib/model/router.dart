@@ -1,3 +1,4 @@
+import 'package:eduvian/screen/cgpa.dart';
 import 'package:eduvian/screen/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +14,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/credit',
         builder: (context, state) => const CreditCalculation(),
       ),
+      GoRoute(path: '/cgpa', builder: (context, state) => const Cgpa()),
     ],
   );
 });
