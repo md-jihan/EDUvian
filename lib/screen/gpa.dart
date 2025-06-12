@@ -1,15 +1,17 @@
+import 'package:eduvian/model/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class GpaCalculation extends StatefulWidget {
+class GpaCalculation extends ConsumerStatefulWidget {
   const GpaCalculation({super.key});
 
   @override
-  State<GpaCalculation> createState() => _GpaCalculationState();
+  ConsumerState<GpaCalculation> createState() => _GpaCalculationState();
 }
 
-class _GpaCalculationState extends State<GpaCalculation> {
+class _GpaCalculationState extends ConsumerState<GpaCalculation> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(appBar: appBar(context, "GPA"));
   }
 }
