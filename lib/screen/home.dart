@@ -34,20 +34,13 @@ class HomeScreen extends StatelessWidget {
                     color: primaryColor,
                     onTap: "/credit",
                   ),
-                  _buildSmallButton(
-                    context,
-                    icon: Icons.calculate,
-                    label: 'Credit & Cost Calculator',
-                    color: primaryColor,
-                    onTap: "/credit",
-                  ),
 
                   _buildSmallButton(
                     context,
                     icon: Icons.calculate,
                     label: 'GPA Calculator',
                     color: primaryColor,
-                    onTap: "/credit",
+                    onTap: "/gpa",
                   ),
                   _buildSmallButton(
                     context,
