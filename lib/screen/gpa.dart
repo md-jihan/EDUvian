@@ -1,8 +1,33 @@
+import 'package:eduvian/model/department.dart';
 import 'package:eduvian/model/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final gradeToPoint = <String, double>{
+final departmentProvider = StateProvider<String?>((ref) => null);
+final subjectProvider = StateProvider<List<Subject>>((ref) => []);
+final gradeProvider = StateProvider<Map<String, String>>((ref) => {});
+
+final gpaProvider = Provider<double>((ref) {
+  final subjects = ref.watch(subjectProvider);
+  final grades = ref.watch(gradeProvider);
+
+  double totalPoints = 0;
+  double totalCredits = 0;
+
+  for (var subject in subjects) {
+    final grade = grades[subject.Code];
+    final credit = subject.Credit;
+    if (grade != null && gradeToPoint.containsKey(grade)) {
+      final point = gradeToPoint[grade]!;
+      totalPoints += point * credit;
+      totalCredits += credit;
+    }
+  }
+
+  return totalCredits > 0 ? totalPoints / totalCredits : 0.0;
+});
+
+const gradeToPoint = {
   'A': 4.0,
   'A-': 3.7,
   'B+': 3.3,
@@ -15,17 +40,6 @@ final gradeToPoint = <String, double>{
   'D': 1.0,
   'F': 0.0,
 };
-final gradesProvider = StateProvider<List<String>>((ref) => []);
-final gpaProvider = Provider<double>((ref) {
-  final grades = ref.watch(gradesProvider);
-  if (grades.isEmpty) return 0.0;
-
-  final validGrades = grades.where(gradeToPoint.containsKey);
-  final totalPoints = validGrades
-      .map((g) => gradeToPoint[g]!)
-      .reduce((a, b) => a + b);
-  return totalPoints / validGrades.length;
-});
 
 class GpaCalculation extends ConsumerStatefulWidget {
   const GpaCalculation({super.key});
@@ -37,29 +51,166 @@ class GpaCalculation extends ConsumerStatefulWidget {
 class _GpaCalculationState extends ConsumerState<GpaCalculation> {
   @override
   Widget build(BuildContext context) {
+    final subjects = ref.watch(subjectProvider);
+    final gpa = ref.watch(gpaProvider);
+
     return Scaffold(
       appBar: appBar(context, "GPA"),
-      body: Consumer(
-        builder: (context, ref, _) {
-          final gpa = ref.watch(gpaProvider);
-          final grades = ref.watch(gradesProvider);
-
-          return Column(
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: offWhite,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
+            ),
+          ),
+          child: Column(
             children: [
-              Text("Your GPA: ${gpa.toStringAsFixed(2)}"),
-              Wrap(
-                spacing: 8,
-                children: grades.map((g) => Chip(label: Text(g))).toList(),
+              /// Department dropdown
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Select Department',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(height: 5),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        return RoundedField(
+                          child: DropdownField(
+                            ProviderName: departmentProvider,
+                            item: department.keys.toList(),
+                            hintText: "Select a department",
+                            onChangeExtra: (ref, newValue) {
+                              ref.watch(subjectProvider.notifier).state = [];
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(gradesProvider.notifier).state = [];
+              const SizedBox(height: 10),
+
+              /// Subject Autocomplete
+              SubjectAutoComplete(
+                departmentProvider: departmentProvider,
+                departmentMap: department,
+                subjectProvider: subjectProvider,
+                fieldDecoration: ({
+                  required String hint,
+                  required IconData icon,
+                }) {
+                  return InputDecoration(
+                    hintText: hint,
+                    prefixIcon: Icon(icon),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  );
                 },
-                child: Text("Reset"),
+              ),
+
+              const SizedBox(height: 16),
+
+              /// Grade + Credit input for each subject
+              Expanded(
+                flex: 4,
+                child: ListView.builder(
+                  itemCount: subjects.length,
+                  itemBuilder: (context, index) {
+                    final subject = subjects[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${subject.Code} - ${subject.Title}",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownButtonFormField<String>(
+                                    value:
+                                        ref.watch(gradeProvider)[subject.Code],
+                                    decoration: const InputDecoration(
+                                      labelText: "Grade",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    items:
+                                        gradeToPoint.keys
+                                            .map(
+                                              (grade) => DropdownMenuItem(
+                                                value: grade,
+                                                child: Text(grade),
+                                              ),
+                                            )
+                                            .toList(),
+                                    onChanged: (value) {
+                                      final current = ref.read(gradeProvider);
+                                      ref.read(gradeProvider.notifier).state = {
+                                        ...current,
+                                        subject.Code: value ?? '',
+                                      };
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: TextFormField(
+                                    initialValue: subject.Credit.toString(),
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      labelText: "Credit",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              /// GPA Result
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Text(
+                  "Total GPA: ${gpa.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
               ),
             ],
-          );
-        },
+          ),
+        ),
       ),
     );
   }
