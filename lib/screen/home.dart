@@ -52,9 +52,9 @@ class HomeScreen extends StatelessWidget {
                   _buildSmallButton(
                     context,
                     icon: Icons.calculate,
-                    label: 'Credit & Cost Calculator',
+                    label: 'CGPA Calculator',
                     color: primaryColor,
-                    onTap: "/credit",
+                    onTap: "/cgpa",
                   ),
                 ],
               ),
