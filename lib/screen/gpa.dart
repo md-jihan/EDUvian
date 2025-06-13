@@ -48,6 +48,36 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
               topRight: Radius.circular(18),
             ),
           ),
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Select Department',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(height: 5),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        return RoundedField(
+                          child: DropdownField(
+                            ProviderName: departmentProvider,
+                            item: department.keys.toList(),
+                            hintText: "Select a department",
+                            onChangeExtra: (ref, newValue) {
+                              ref.watch(subjectProvider.notifier).state = [];
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
