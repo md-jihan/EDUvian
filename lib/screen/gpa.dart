@@ -89,7 +89,7 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () => showAddSubjectDialog(context, ref),
                           icon: Icon(Icons.add, color: primaryColor, size: 40),
                         ),
                       ],
@@ -165,6 +165,7 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide.none,
                                         ),
+                                        isDense: true,
                                       ),
                                       items:
                                           gradeToPoint.keys

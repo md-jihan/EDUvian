@@ -231,3 +231,35 @@ const gradeToPoint = {
   'D': 1.0,
   'F': 0.0,
 };
+
+final dialogGradeProvider = StateProvider<String?>((ref) => null);
+final dialogCreditProvider = StateProvider<String?>((ref) => '');
+
+void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Add Credit'),
+        content: Consumer(
+          builder: (context, ref, child) {
+            final selectGrade = ref.watch(dialogCreditProvider);
+            final creditText = ref.watch(dialogCreditProvider);
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Credit'),
+                  onChanged:
+                      (value) =>
+                          ref.read(dialogCreditProvider.notifier).state = value,
+                ),
+              ],
+            );
+          },
+        ),
+      );
+    },
+  );
+}
