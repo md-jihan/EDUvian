@@ -76,7 +76,7 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                   ],
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 0),
               RoundedField(
                 child: SubjectAutoComplete(
                   departmentProvider: departmentProvider,
@@ -110,7 +110,7 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                             Text(
                               "${subject.Code} - ${subject.Credit}",
                               style: const TextStyle(
-                                fontSize: 18,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
