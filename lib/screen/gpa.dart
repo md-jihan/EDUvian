@@ -110,17 +110,14 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                             Text(
                               "${subject.Code} - ${subject.Credit}",
                               style: const TextStyle(
-                                fontSize: 15,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             Expanded(
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  maxWidth:
-                                      (MediaQuery.of(context).size.width) * 0.9,
-                                ),
-
+                              child: SizedBox(
+                                width:
+                                    (MediaQuery.of(context).size.width * 0.30),
                                 child: DropdownButtonFormField<String>(
                                   value: ref.watch(gradeProvider)[subject.Code],
                                   decoration: const InputDecoration(
@@ -151,6 +148,18 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                       ),
                     );
                   },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Text(
+                  "Total GPA: ${gpa.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
             ],
