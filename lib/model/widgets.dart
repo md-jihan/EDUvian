@@ -218,7 +218,7 @@ AppBar appBar(BuildContext context, String title) => AppBar(
   centerTitle: true,
 );
 
-const gradeToPoint = {
+final gradeToPoint = {
   'A': 4.0,
   'A-': 3.7,
   'B+': 3.3,
@@ -233,7 +233,7 @@ const gradeToPoint = {
 };
 
 final dialogGradeProvider = StateProvider<String?>((ref) => null);
-final dialogCreditProvider = StateProvider<String?>((ref) => '');
+final dialogCreditProvider = StateProvider<String>((ref) => '');
 
 void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
   showDialog(
@@ -244,7 +244,6 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
         content: Consumer(
           builder: (context, ref, child) {
             final selectGrade = ref.watch(dialogCreditProvider);
-            final creditText = ref.watch(dialogCreditProvider);
 
             return Column(
               mainAxisSize: MainAxisSize.min,
@@ -255,10 +254,53 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                       (value) =>
                           ref.read(dialogCreditProvider.notifier).state = value,
                 ),
+                DropdownButtonFormField<String>(
+                  value:
+                      gradeToPoint.keys.contains(selectGrade)
+                          ? selectGrade
+                          : null,
+                  decoration: const InputDecoration(
+                    labelText: "Grade",
+                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                  ),
+                  items:
+                      gradeToPoint.keys
+                          .map(
+                            (grade) => DropdownMenuItem(
+                              value: grade,
+                              child: Text(grade),
+                            ),
+                          )
+                          .toList(),
+                  onChanged: (String? value) {
+                    if (value != null) {
+                      ref.read(dialogGradeProvider.notifier).state = value;
+                    }
+                  },
+                ),
               ],
             );
           },
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final grade = ref.read(dialogGradeProvider);
+              final creditStr = ref.read(dialogCreditProvider);
+              final credit = double.tryParse(creditStr);
+              if (grade != null && credit != null) {
+                ref.read(dialogGradeProvider.notifier).state = null;
+                ref.read(dialogCreditProvider.notifier).state = '';
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text('Save'),
+          ),
+        ],
       );
     },
   );
