@@ -74,13 +74,25 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                   ),
                   const SizedBox(height: 15),
                   if (ref.watch(departmentProvider) != null)
-                    RoundedField(
-                      child: SubjectAutoComplete(
-                        departmentProvider: departmentProvider,
-                        departmentMap: department,
-                        subjectProvider: subjectProvider,
-                        fieldDecoration: fieldDecoration,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: (MediaQuery.of(context).size.width) * 0.80,
+                          child: RoundedField(
+                            child: SubjectAutoComplete(
+                              departmentProvider: departmentProvider,
+                              departmentMap: department,
+                              subjectProvider: subjectProvider,
+                              fieldDecoration: fieldDecoration,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.add, color: primaryColor, size: 40),
+                        ),
+                      ],
                     ),
                 ],
               ),
