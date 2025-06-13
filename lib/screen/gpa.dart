@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final gradeProvider = StateProvider<Map<String, String>>((ref) => {});
-const gradeToPoint = {'A': 4.0, 'A-': 3.7};
+
 final gpaProvider = Provider<double>((ref) {
   final subjects = ref.watch(subjectProvider);
   final grades = ref.watch(gradeProvider);
@@ -114,33 +114,30 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            Expanded(
-                              child: SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width * 0.30),
-                                child: DropdownButtonFormField<String>(
-                                  value: ref.watch(gradeProvider)[subject.Code],
-                                  decoration: const InputDecoration(
-                                    labelText: "Grade",
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  items:
-                                      gradeToPoint.keys
-                                          .map(
-                                            (grade) => DropdownMenuItem(
-                                              value: grade,
-                                              child: Text(grade),
-                                            ),
-                                          )
-                                          .toList(),
-                                  onChanged: (value) {
-                                    final current = ref.read(gradeProvider);
-                                    ref.read(gradeProvider.notifier).state = {
-                                      ...current,
-                                      subject.Code: value ?? '',
-                                    };
-                                  },
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.30,
+                              child: DropdownButtonFormField<String>(
+                                value: ref.watch(gradeProvider)[subject.Code],
+                                decoration: const InputDecoration(
+                                  labelText: "Grade",
+                                  border: OutlineInputBorder(),
                                 ),
+                                items:
+                                    gradeToPoint.keys
+                                        .map(
+                                          (grade) => DropdownMenuItem(
+                                            value: grade,
+                                            child: Text(grade),
+                                          ),
+                                        )
+                                        .toList(),
+                                onChanged: (value) {
+                                  final current = ref.read(gradeProvider);
+                                  ref.read(gradeProvider.notifier).state = {
+                                    ...current,
+                                    subject.Code: value ?? '',
+                                  };
+                                },
                               ),
                             ),
                           ],
