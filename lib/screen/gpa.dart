@@ -76,6 +76,83 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                   ],
                 ),
               ),
+              const SizedBox(height: 5),
+              RoundedField(
+                child: SubjectAutoComplete(
+                  departmentProvider: departmentProvider,
+                  departmentMap: department,
+                  subjectProvider: subjectProvider,
+                  fieldDecoration: fieldDecoration,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                flex: 4,
+                child: ListView.builder(
+                  itemCount: subjects.length,
+                  itemBuilder: (context, index) {
+                    final subject = subjects[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                          children: [
+                            Text(
+                              "${subject.Code} - ${subject.Credit}",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Expanded(
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      (MediaQuery.of(context).size.width) * 0.9,
+                                ),
+
+                                child: DropdownButtonFormField<String>(
+                                  value: ref.watch(gradeProvider)[subject.Code],
+                                  decoration: const InputDecoration(
+                                    labelText: "Grade",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items:
+                                      gradeToPoint.keys
+                                          .map(
+                                            (grade) => DropdownMenuItem(
+                                              value: grade,
+                                              child: Text(grade),
+                                            ),
+                                          )
+                                          .toList(),
+                                  onChanged: (value) {
+                                    final current = ref.read(gradeProvider);
+                                    ref.read(gradeProvider.notifier).state = {
+                                      ...current,
+                                      subject.Code: value ?? '',
+                                    };
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),
