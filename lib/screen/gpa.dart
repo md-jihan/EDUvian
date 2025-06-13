@@ -50,40 +50,39 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
           ),
           child: Column(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Select Department',
-                      style: TextStyle(color: Colors.black, fontSize: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Select Department',
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                  const SizedBox(height: 5),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      return RoundedField(
+                        child: DropdownField(
+                          ProviderName: departmentProvider,
+                          item: department.keys.toList(),
+                          hintText: "Select a department",
+                          onChangeExtra: (ref, newValue) {
+                            ref.watch(subjectProvider.notifier).state = [];
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  if (ref.watch(departmentProvider) != null)
+                    RoundedField(
+                      child: SubjectAutoComplete(
+                        departmentProvider: departmentProvider,
+                        departmentMap: department,
+                        subjectProvider: subjectProvider,
+                        fieldDecoration: fieldDecoration,
+                      ),
                     ),
-                    const SizedBox(height: 5),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        return RoundedField(
-                          child: DropdownField(
-                            ProviderName: departmentProvider,
-                            item: department.keys.toList(),
-                            hintText: "Select a department",
-                            onChangeExtra: (ref, newValue) {
-                              ref.watch(subjectProvider.notifier).state = [];
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 0),
-              RoundedField(
-                child: SubjectAutoComplete(
-                  departmentProvider: departmentProvider,
-                  departmentMap: department,
-                  subjectProvider: subjectProvider,
-                  fieldDecoration: fieldDecoration,
-                ),
+                ],
               ),
               const SizedBox(height: 16),
               Expanded(
