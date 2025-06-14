@@ -358,7 +358,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                 );
               }
             },
-            child: const Text('Save'),
+            child: const Text('Add'),
           ),
         ],
       );
