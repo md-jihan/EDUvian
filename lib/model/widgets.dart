@@ -1,3 +1,4 @@
+import 'package:eduvian/screen/gpa.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -293,9 +294,32 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
               final creditStr = ref.read(dialogCreditProvider);
               final credit = double.tryParse(creditStr);
               if (grade != null && credit != null) {
+                final currentSubjects = ref.read(subjectProvider);
+                final newSubject = Subject(
+                  "Manual-${currentSubjects.length + 1}",
+                  "Custom Subject",
+                  credit,
+                );
+                ref.read(subjectProvider.notifier).state = [
+                  ...currentSubjects,
+                  newSubject,
+                ];
+
+                final currentGrades = ref.read(gradeProvider);
+
+                ref.read(gradeProvider.notifier).state = {
+                  ...currentGrades,
+                  newSubject.Code: grade,
+                };
                 ref.read(dialogGradeProvider.notifier).state = null;
                 ref.read(dialogCreditProvider.notifier).state = '';
                 Navigator.of(context).pop();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Please enter valid credit and grade'),
+                  ),
+                );
               }
             },
             child: const Text('Save'),
