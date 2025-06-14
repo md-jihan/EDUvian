@@ -233,6 +233,20 @@ final gradeToPoint = {
   'F': 0.0,
 };
 
+final creditTo = [
+  "1",
+  "1.5",
+  "2",
+  "2.5",
+  "3",
+  "3.5",
+  "4",
+  "4.5",
+  "5",
+  "5.5",
+  "6",
+];
+
 final dialogGradeProvider = StateProvider<String?>((ref) => null);
 final dialogCreditProvider = StateProvider<String>((ref) => '');
 
@@ -241,6 +255,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
     context: context,
     builder: (context) {
       return AlertDialog(
+        backgroundColor: offWhite,
         title: const Text('Add Credit'),
         content: Consumer(
           builder: (context, ref, child) {
@@ -249,35 +264,56 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(
-                  decoration: const InputDecoration(labelText: 'Credit'),
-                  onChanged:
-                      (value) =>
-                          ref.read(dialogCreditProvider.notifier).state = value,
-                ),
-                DropdownButtonFormField<String>(
-                  value:
-                      gradeToPoint.keys.contains(selectGrade)
-                          ? selectGrade
-                          : null,
-                  decoration: const InputDecoration(
-                    labelText: "Grade",
-                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                RoundedField(
+                  child: DropdownButtonFormField<String>(
+                    value: selectGrade.isNotEmpty ? selectGrade : null,
+                    decoration: const InputDecoration(
+                      labelText: "Credit",
+                      contentPadding: EdgeInsets.all(8),
+                      border: InputBorder.none,
+                    ),
+                    items:
+                        creditTo
+                            .map(
+                              (credit) => DropdownMenuItem(
+                                value: credit,
+                                child: Text(credit),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (String? value) {
+                      if (value != null) {
+                        ref.read(dialogCreditProvider.notifier).state = value;
+                      }
+                    },
                   ),
-                  items:
-                      gradeToPoint.keys
-                          .map(
-                            (grade) => DropdownMenuItem(
-                              value: grade,
-                              child: Text(grade),
-                            ),
-                          )
-                          .toList(),
-                  onChanged: (String? value) {
-                    if (value != null) {
-                      ref.read(dialogGradeProvider.notifier).state = value;
-                    }
-                  },
+                ),
+                const SizedBox(height: 10),
+                RoundedField(
+                  child: DropdownButtonFormField<String>(
+                    value:
+                        gradeToPoint.keys.contains(selectGrade)
+                            ? selectGrade
+                            : null,
+                    decoration: const InputDecoration(
+                      labelText: "Grade",
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                    ),
+                    items:
+                        gradeToPoint.keys
+                            .map(
+                              (grade) => DropdownMenuItem(
+                                value: grade,
+                                child: Text(grade),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (String? value) {
+                      if (value != null) {
+                        ref.read(dialogGradeProvider.notifier).state = value;
+                      }
+                    },
+                  ),
                 ),
               ],
             );
