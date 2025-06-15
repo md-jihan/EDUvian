@@ -78,7 +78,7 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: (MediaQuery.of(context).size.width) * 0.80,
+                          width: (MediaQuery.of(context).size.width) * 0.79,
                           child: RoundedField(
                             child: SubjectAutoComplete(
                               departmentProvider: departmentProvider,
@@ -154,9 +154,9 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                                       MediaQuery.of(context).size.width * 0.30,
                                   child: RoundedField(
                                     child: DropdownButtonFormField<String>(
-                                      value:
-                                          ref.watch(gradeProvider)[subject
-                                              .Code],
+                                      value: ref.watch(
+                                        gradeProvider,
+                                      )[subject.Code],
                                       decoration: const InputDecoration(
                                         labelText: "Grade",
                                         labelStyle: TextStyle(
@@ -167,15 +167,14 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                                         ),
                                         isDense: true,
                                       ),
-                                      items:
-                                          gradeToPoint.keys
-                                              .map(
-                                                (grade) => DropdownMenuItem(
-                                                  value: grade,
-                                                  child: Text(grade),
-                                                ),
-                                              )
-                                              .toList(),
+                                      items: gradeToPoint.keys
+                                          .map(
+                                            (grade) => DropdownMenuItem(
+                                              value: grade,
+                                              child: Text(grade),
+                                            ),
+                                          )
+                                          .toList(),
                                       onChanged: (value) {
                                         final current = ref.read(gradeProvider);
                                         ref
