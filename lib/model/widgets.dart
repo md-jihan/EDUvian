@@ -374,3 +374,5 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
     },
   );
 }
+
+final semesterProvider = StateProvider<String?>((ref) => null);
