@@ -78,7 +78,7 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: (MediaQuery.of(context).size.width) * 0.79,
+                          width: (MediaQuery.of(context).size.width) * 0.78,
                           child: RoundedField(
                             child: SubjectAutoComplete(
                               departmentProvider: departmentProvider,
