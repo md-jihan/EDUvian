@@ -129,8 +129,8 @@ class SubjectAutoComplete extends ConsumerWidget {
               ),
         );
       },
-      displayStringForOption:
-          (Subject option) => '${option.Code} ${option.Title}',
+      displayStringForOption: (Subject option) =>
+          '${option.Code} ${option.Title}',
 
       fieldViewBuilder: (context, controller, focuseNode, onEditingComplete) {
         return TextField(
@@ -207,15 +207,14 @@ AppBar appBar(BuildContext context, String title) => AppBar(
     "${title}",
     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
   ),
-  leading:
-      GoRouter.of(context).canPop()
-          ? IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-          )
-          : null,
+  leading: GoRouter.of(context).canPop()
+      ? IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        )
+      : null,
   centerTitle: true,
 );
 
@@ -232,7 +231,20 @@ final gradeToPoint = {
   'D': 1.0,
   'F': 0.0,
 };
-
+final semester = {
+  "Semester 1",
+  "Semester 2",
+  "Semester 3",
+  "Semester 4",
+  "Semester 5",
+  "Semester 6",
+  "Semester 7",
+  "Semester 8",
+  "Semester 9",
+  "Semester 10",
+  "Semester 11",
+  "Semester 12",
+};
 final creditTo = [
   "1",
   "1.5",
@@ -272,15 +284,14 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                       contentPadding: EdgeInsets.all(8),
                       border: InputBorder.none,
                     ),
-                    items:
-                        creditTo
-                            .map(
-                              (credit) => DropdownMenuItem(
-                                value: credit,
-                                child: Text(credit),
-                              ),
-                            )
-                            .toList(),
+                    items: creditTo
+                        .map(
+                          (credit) => DropdownMenuItem(
+                            value: credit,
+                            child: Text(credit),
+                          ),
+                        )
+                        .toList(),
                     onChanged: (String? value) {
                       if (value != null) {
                         ref.read(dialogCreditProvider.notifier).state = value;
@@ -291,23 +302,21 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                 const SizedBox(height: 10),
                 RoundedField(
                   child: DropdownButtonFormField<String>(
-                    value:
-                        gradeToPoint.keys.contains(selectGrade)
-                            ? selectGrade
-                            : null,
+                    value: gradeToPoint.keys.contains(selectGrade)
+                        ? selectGrade
+                        : null,
                     decoration: const InputDecoration(
                       labelText: "Grade",
                       border: OutlineInputBorder(borderSide: BorderSide.none),
                     ),
-                    items:
-                        gradeToPoint.keys
-                            .map(
-                              (grade) => DropdownMenuItem(
-                                value: grade,
-                                child: Text(grade),
-                              ),
-                            )
-                            .toList(),
+                    items: gradeToPoint.keys
+                        .map(
+                          (grade) => DropdownMenuItem(
+                            value: grade,
+                            child: Text(grade),
+                          ),
+                        )
+                        .toList(),
                     onChanged: (String? value) {
                       if (value != null) {
                         ref.read(dialogGradeProvider.notifier).state = value;

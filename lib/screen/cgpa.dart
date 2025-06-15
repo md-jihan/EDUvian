@@ -18,6 +18,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(16),
+          color: offWhite,
           child: Column(
             children: [
               Consumer(
