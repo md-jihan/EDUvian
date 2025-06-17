@@ -28,7 +28,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   Expanded(
                     child: Column(
                       children: [
-                        const Text("select Department (Optional)"),
+                        const Text("Department (Optional)"),
                         const SizedBox(height: 4),
                         Consumer(
                           builder: (context, ref, child) {
@@ -40,17 +40,18 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                                     borderSide: BorderSide.none,
                                   ),
                                 ),
-                                items: department.keys.map((dept) {
-                                  return DropdownMenuItem(
-                                    value: dept,
-                                    child: Text(dept),
-                                  );
-                                }).toList(),
-                                onChanged: (value) =>
-                                    ref
+                                items:
+                                    department.keys.map((dept) {
+                                      return DropdownMenuItem(
+                                        value: dept,
+                                        child: Text(dept),
+                                      );
+                                    }).toList(),
+                                onChanged:
+                                    (value) =>
+                                        ref
                                             .read(departmentProvider.notifier)
-                                            .state =
-                                        value,
+                                            .state = value,
                               ),
                             );
                           },
@@ -64,7 +65,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   Expanded(
                     child: Column(
                       children: [
-                        const Text("select Semester (Optional)"),
+                        const Text("Semester (Optional)"),
                         const SizedBox(height: 4),
                         Consumer(
                           builder: (context, ref, child) {
@@ -76,15 +77,18 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                                     borderSide: BorderSide.none,
                                   ),
                                 ),
-                                items: semester.map((dept) {
-                                  return DropdownMenuItem(
-                                    value: dept,
-                                    child: Text(dept),
-                                  );
-                                }).toList(),
-                                onChanged: (value) =>
-                                    ref.read(semesterProvider.notifier).state =
-                                        value,
+                                items:
+                                    semester.map((dept) {
+                                      return DropdownMenuItem(
+                                        value: dept,
+                                        child: Text(dept),
+                                      );
+                                    }).toList(),
+                                onChanged:
+                                    (value) =>
+                                        ref
+                                            .read(semesterProvider.notifier)
+                                            .state = value,
                               ),
                             );
                           },
