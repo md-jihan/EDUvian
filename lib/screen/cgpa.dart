@@ -3,6 +3,10 @@ import 'package:eduvian/model/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final totalCreditProvider = StateProvider<String>((ref) => '');
+final totalGpaProvider = StateProvider<String>((ref) => '');
+final cgpaListProvider = StateProvider<List<Map<String, dynamic>>>((ref) => []);
+
 class CgpaCalculation extends ConsumerStatefulWidget {
   const CgpaCalculation({super.key});
 
@@ -23,101 +27,26 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Text("Department (Optional)"),
-                        const SizedBox(height: 4),
-                        Consumer(
+              Consumer(
+                builder: (context, ref, child) {
+                  final cgpaEnter = ref.watch(cgpaListProvider);
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: cgpaEnter.length,
+                      itemBuilder: (context, index) {
+                        final data = cgpaEnter[index];
+                        return Consumer(
                           builder: (context, ref, child) {
-                            return RoundedField(
-                              child: DropdownButtonFormField(
-                                value: ref.watch(departmentProvider),
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                ),
-                                items:
-                                    department.keys.map((dept) {
-                                      return DropdownMenuItem(
-                                        value: dept,
-                                        child: Text(dept),
-                                      );
-                                    }).toList(),
-                                onChanged:
-                                    (value) =>
-                                        ref
-                                            .read(departmentProvider.notifier)
-                                            .state = value,
-                              ),
+                            return Card(
+                              margin: const EdgeInsets.symmetric(vertical: 6),
+                              Row(children: []),
                             );
                           },
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Text("Semester (Optional)"),
-                        const SizedBox(height: 4),
-                        Consumer(
-                          builder: (context, ref, child) {
-                            return RoundedField(
-                              child: DropdownButtonFormField(
-                                value: ref.watch(semesterProvider),
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                ),
-                                items:
-                                    semester.map((dept) {
-                                      return DropdownMenuItem(
-                                        value: dept,
-                                        child: Text(dept),
-                                      );
-                                    }).toList(),
-                                onChanged:
-                                    (value) =>
-                                        ref
-                                            .read(semesterProvider.notifier)
-                                            .state = value,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Consumer(
-                    builder: (context, ref, child) {
-                      TextEditingController totalCredit =
-                          TextEditingController();
-                      TextEditingController TotalGPA = TextEditingController();
-                      return Column(
-                        children: [
-                          Text("Total Credit"),
-                          SizedBox(height: 10),
-                          TextField(
-                            controller: totalCredit,
-                            decoration: InputDecoration(),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
+                  );
+                },
               ),
             ],
           ),
