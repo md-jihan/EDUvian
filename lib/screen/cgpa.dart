@@ -98,6 +98,27 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   ),
                 ],
               ),
+              Row(
+                children: [
+                  Consumer(
+                    builder: (context, ref, child) {
+                      TextEditingController totalCredit =
+                          TextEditingController();
+                      TextEditingController TotalGPA = TextEditingController();
+                      return Column(
+                        children: [
+                          Text("Total Credit"),
+                          SizedBox(height: 10),
+                          TextField(
+                            controller: totalCredit,
+                            decoration: InputDecoration(),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),
