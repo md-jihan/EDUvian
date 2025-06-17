@@ -39,7 +39,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                           builder: (context, ref, child) {
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 6),
-                              Row(children: []),
+                              child: Row(children: []),
                             );
                           },
                         );
