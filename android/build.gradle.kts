@@ -19,3 +19,17 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+android {
+    // 👇 Add this line inside the android block
+    ndkVersion = "27.0.12077973"
+
+    compileSdk = 34
+    namespace = "com.example.eduvian"
+
+    defaultConfig {
+        applicationId = "com.example.eduvian"
+        // ... other config
+    }
+    // ... rest of android config
+}
