@@ -29,22 +29,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
               Consumer(
                 builder: (context, ref, child) {
                   final cgpaEnter = ref.watch(cgpaListProvider);
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: cgpaEnter.length,
-                      itemBuilder: (context, index) {
-                        final data = cgpaEnter[index];
-                        return Consumer(
-                          builder: (context, ref, child) {
-                            return Card(
-                              margin: const EdgeInsets.symmetric(vertical: 6),
-                              child: Row(children: [Text("Jihan")]),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  );
+                  return Text("JIHan");
                 },
               ),
             ],
