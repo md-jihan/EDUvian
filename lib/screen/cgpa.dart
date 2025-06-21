@@ -32,6 +32,16 @@ class CgpaCalculation extends ConsumerStatefulWidget {
 }
 
 class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
+  final creditController = TextEditingController();
+  final gpaController = TextEditingController();
+
+  @override
+  void dispose() {
+    creditController.dispose();
+    gpaController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +94,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
               Consumer(
                 builder: (context, ref, child) {
                   return TextField(
+                    controller: creditController,
                     decoration: const InputDecoration(
                       labelText: 'Total Credit',
                     ),
@@ -99,6 +110,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
               Consumer(
                 builder: (context, ref, child) {
                   return TextField(
+                    controller: gpaController,
                     decoration: const InputDecoration(
                       labelText: 'GPA (max 4.0)',
                     ),
@@ -129,6 +141,8 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                         ref.read(totalCreditProvider.notifier).state = '';
                         ref.read(totalGpaProvider.notifier).state = '';
                         ref.read(semesterProvider.notifier).state = null;
+                        creditController.clear();
+                        gpaController.clear();
                       }
                     },
                     child: const Text("Add"),
