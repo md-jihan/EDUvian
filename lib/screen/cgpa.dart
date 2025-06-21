@@ -46,7 +46,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, "CGPA"),
-      body: SingleChildScrollView(
+      body: Expanded(
         child: Container(
           padding: EdgeInsets.all(16),
           color: offWhite,
@@ -78,6 +78,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                 },
               ),
               const SizedBox(height: 10),
+
               Consumer(
                 builder: (context, ref, child) {
                   return RoundedField(
@@ -101,8 +102,6 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   );
                 },
               ),
-              const SizedBox(height: 10),
-
               Consumer(
                 builder: (context, ref, child) {
                   return RoundedField(
@@ -121,7 +120,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   );
                 },
               ),
-              const SizedBox(height: 16),
+
               Consumer(
                 builder: (context, ref, child) {
                   return RoundedField(
@@ -141,6 +140,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   );
                 },
               ),
+
               Consumer(
                 builder: (context, ref, child) {
                   return ElevatedButton(
