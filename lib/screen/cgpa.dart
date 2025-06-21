@@ -102,7 +102,9 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   );
                 },
               ),
+              const SizedBox(height: 10),
               Row(
+                spacing: 10,
                 children: [
                   Expanded(
                     flex: 3,
@@ -219,29 +221,21 @@ class SemesterListView extends ConsumerWidget {
             itemCount: list.length,
             itemBuilder: (context, index) {
               final semester = list[index];
-              return ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                leading: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.teal.shade100,
-                    shape: BoxShape.circle,
+              return Card(
+                child: ListTile(
+                  visualDensity: VisualDensity(vertical: -2),
+                  title: Text(semester['semester'] ?? "Unnamed Semester"),
+                  subtitle: Text(
+                    "Credit: ${semester['credit']} | GPA: ${semester['gpa']}",
                   ),
-                  child: const Icon(Icons.school, color: Colors.teal),
-                ),
-                title: Text(semester['semester'] ?? "Unnamed Semester"),
-                subtitle: Text(
-                  "Credit: ${semester['credit']} | GPA: ${semester['gpa']}",
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    final updated = [...ref.read(SemesterListProvider)]
-                      ..remove(semester);
-                    ref.read(SemesterListProvider.notifier).state = updated;
-                  },
-                  icon: const Icon(Icons.delete, color: Colors.red),
+                  trailing: IconButton(
+                    onPressed: () {
+                      final updated = [...ref.read(SemesterListProvider)]
+                        ..remove(semester);
+                      ref.read(SemesterListProvider.notifier).state = updated;
+                    },
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                  ),
                 ),
               );
             },
