@@ -95,8 +95,95 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   );
                 },
               ),
+              const SizedBox(height: 16),
+              Consumer(
+                builder: (context, ref, child) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      final creditStr = ref.read(totalCreditProvider);
+                      final gpaStr = ref.read(totalGpaProvider);
+                      final semester = ref.read(semesterProvider);
+                      final credit = double.tryParse(creditStr);
+                      final gpa = double.tryParse(gpaStr);
+                      if (credit != null && gpa != null && gpa <= 4.0) {
+                        final current = ref.read(SemesterListProvider);
+                        ref.read(SemesterListProvider.notifier).state = [
+                          ...current,
+                          {'credit': credit, 'gpa': gpa, 'semester': semester},
+                        ];
+                        ref.read(totalCreditProvider.notifier).state = '';
+                        ref.read(totalGpaProvider.notifier).state = '';
+                        ref.read(semesterProvider.notifier).state = null;
+                      }
+                    },
+                    child: const Text("Add"),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              const SemesterListView(),
+              const CgpaResult(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SemesterListView extends ConsumerWidget {
+  const SemesterListView({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final list = ref.watch(SemesterListProvider);
+
+    if (list.isEmpty) {
+      return const Text("No semester added yet.");
+    }
+    return Column(
+      children:
+          list
+              .map(
+                (semester) => ListTile(
+                  title: Text(semester['semester'] ?? "Unnamed Semester"),
+                  subtitle: Text(
+                    "Credit: ${semester['credit']} | GPA: ${semester['gpa']}",
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {
+                      final updated = [...ref.read(SemesterListProvider)]
+                        ..remove(semester);
+                      ref.read(SemesterListProvider.notifier).state = updated;
+                    },
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                  ),
+                ),
+              )
+              .toList(),
+    );
+  }
+}
+
+class CgpaResult extends ConsumerWidget {
+  const CgpaResult({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cgpa = ref.watch(cgpaProvider);
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.teal.shade100.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        "Your CGPA: ${cgpa.toStringAsFixed(2)}",
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.teal,
         ),
       ),
     );
