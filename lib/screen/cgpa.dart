@@ -102,70 +102,93 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   );
                 },
               ),
-              Consumer(
-                builder: (context, ref, child) {
-                  return RoundedField(
-                    child: TextField(
-                      controller: creditController,
-                      decoration: const InputDecoration(
-                        labelText: 'Total Credit',
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged:
-                          (value) =>
-                              ref.read(totalCreditProvider.notifier).state =
-                                  value,
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        return RoundedField(
+                          child: TextField(
+                            controller: creditController,
+                            decoration: const InputDecoration(
+                              labelText: 'Total Credit',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            keyboardType: TextInputType.number,
+                            onChanged:
+                                (value) =>
+                                    ref
+                                        .read(totalCreditProvider.notifier)
+                                        .state = value,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
+                  ),
 
-              Consumer(
-                builder: (context, ref, child) {
-                  return RoundedField(
-                    child: TextField(
-                      controller: gpaController,
-                      decoration: const InputDecoration(
-                        labelText: 'GPA (max 4.0)',
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
-                      ),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      onChanged:
-                          (value) =>
-                              ref.read(totalGpaProvider.notifier).state = value,
+                  Expanded(
+                    flex: 3,
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        return RoundedField(
+                          child: TextField(
+                            controller: gpaController,
+                            decoration: const InputDecoration(
+                              labelText: 'GPA (max 4.0)',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            onChanged:
+                                (value) =>
+                                    ref.read(totalGpaProvider.notifier).state =
+                                        value,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
+                  ),
 
-              Consumer(
-                builder: (context, ref, child) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      final creditStr = ref.read(totalCreditProvider);
-                      final gpaStr = ref.read(totalGpaProvider);
-                      final semester = ref.read(semesterProvider);
-                      final credit = double.tryParse(creditStr);
-                      final gpa = double.tryParse(gpaStr);
-                      if (credit != null && gpa != null && gpa <= 4.0) {
-                        final current = ref.read(SemesterListProvider);
-                        ref.read(SemesterListProvider.notifier).state = [
-                          ...current,
-                          {'credit': credit, 'gpa': gpa, 'semester': semester},
-                        ];
-                        ref.read(totalCreditProvider.notifier).state = '';
-                        ref.read(totalGpaProvider.notifier).state = '';
-                        ref.read(semesterProvider.notifier).state = null;
-                        creditController.clear();
-                        gpaController.clear();
-                      }
-                    },
-                    child: const Text("Add"),
-                  );
-                },
+                  Expanded(
+                    flex: 2,
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            final creditStr = ref.read(totalCreditProvider);
+                            final gpaStr = ref.read(totalGpaProvider);
+                            final semester = ref.read(semesterProvider);
+                            final credit = double.tryParse(creditStr);
+                            final gpa = double.tryParse(gpaStr);
+                            if (credit != null && gpa != null && gpa <= 4.0) {
+                              final current = ref.read(SemesterListProvider);
+                              ref.read(SemesterListProvider.notifier).state = [
+                                ...current,
+                                {
+                                  'credit': credit,
+                                  'gpa': gpa,
+                                  'semester': semester,
+                                },
+                              ];
+                              ref.read(totalCreditProvider.notifier).state = '';
+                              ref.read(totalGpaProvider.notifier).state = '';
+                              ref.read(semesterProvider.notifier).state = null;
+                              creditController.clear();
+                              gpaController.clear();
+                            }
+                          },
+                          child: const Text("Add"),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               const SemesterListView(),
