@@ -56,36 +56,48 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
             children: [
               Consumer(
                 builder: (context, ref, child) {
-                  return DropdownButtonFormField<String>(
-                    value: ref.watch(departmentProvider),
-                    decoration: const InputDecoration(labelText: "Department"),
-                    items:
-                        department.keys
-                            .map(
-                              (e) => DropdownMenuItem(value: e, child: Text(e)),
-                            )
-                            .toList(),
-                    onChanged: (value) {
-                      ref.read(departmentProvider.notifier).state = value;
-                    },
+                  return RoundedField(
+                    child: DropdownButtonFormField<String>(
+                      value: ref.watch(departmentProvider),
+                      decoration: const InputDecoration(
+                        labelText: "Department",
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                      ),
+                      items:
+                          department.keys
+                              .map(
+                                (e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)),
+                              )
+                              .toList(),
+                      onChanged: (value) {
+                        ref.read(departmentProvider.notifier).state = value;
+                      },
+                    ),
                   );
                 },
               ),
               const SizedBox(height: 10),
               Consumer(
                 builder: (context, ref, child) {
-                  return DropdownButtonFormField(
-                    value: ref.watch(semesterProvider),
-                    decoration: const InputDecoration(labelText: "semester"),
-                    items:
-                        semester
-                            .map(
-                              (e) => DropdownMenuItem(value: e, child: Text(e)),
-                            )
-                            .toList(),
-                    onChanged: (value) {
-                      ref.read(semesterProvider.notifier).state = value;
-                    },
+                  return RoundedField(
+                    child: DropdownButtonFormField(
+                      value: ref.watch(semesterProvider),
+                      decoration: const InputDecoration(
+                        labelText: "semester",
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                      ),
+                      items:
+                          semester
+                              .map(
+                                (e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)),
+                              )
+                              .toList(),
+                      onChanged: (value) {
+                        ref.read(semesterProvider.notifier).state = value;
+                      },
+                    ),
                   );
                 },
               ),
@@ -93,33 +105,39 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
 
               Consumer(
                 builder: (context, ref, child) {
-                  return TextField(
-                    controller: creditController,
-                    decoration: const InputDecoration(
-                      labelText: 'Total Credit',
+                  return RoundedField(
+                    child: TextField(
+                      controller: creditController,
+                      decoration: const InputDecoration(
+                        labelText: 'Total Credit',
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                      ),
+                      keyboardType: TextInputType.number,
+                      onChanged:
+                          (value) =>
+                              ref.read(totalCreditProvider.notifier).state =
+                                  value,
                     ),
-                    keyboardType: TextInputType.number,
-                    onChanged:
-                        (value) =>
-                            ref.read(totalCreditProvider.notifier).state =
-                                value,
                   );
                 },
               ),
               const SizedBox(height: 16),
               Consumer(
                 builder: (context, ref, child) {
-                  return TextField(
-                    controller: gpaController,
-                    decoration: const InputDecoration(
-                      labelText: 'GPA (max 4.0)',
+                  return RoundedField(
+                    child: TextField(
+                      controller: gpaController,
+                      decoration: const InputDecoration(
+                        labelText: 'GPA (max 4.0)',
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                      ),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      onChanged:
+                          (value) =>
+                              ref.read(totalGpaProvider.notifier).state = value,
                     ),
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    onChanged:
-                        (value) =>
-                            ref.read(totalGpaProvider.notifier).state = value,
                   );
                 },
               ),
