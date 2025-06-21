@@ -1,3 +1,4 @@
+import 'package:eduvian/model/department.dart';
 import 'package:eduvian/model/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,8 +46,53 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
             children: [
               Consumer(
                 builder: (context, ref, child) {
-                  final cgpaEnter = ref.watch(cgpaListProvider);
-                  return Text("JIHan");
+                  return DropdownButtonFormField<String>(
+                    value: ref.watch(departmentProvider),
+                    decoration: const InputDecoration(labelText: "Department"),
+                    items:
+                        department.keys
+                            .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      ref.read(departmentProvider.notifier).state = value;
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              Consumer(
+                builder: (context, ref, child) {
+                  return DropdownButtonFormField(
+                    value: ref.watch(semesterProvider),
+                    decoration: const InputDecoration(labelText: "semester"),
+                    items:
+                        semester
+                            .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      ref.read(semesterProvider.notifier).state = value;
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+
+              Consumer(
+                builder: (context, ref, child) {
+                  return TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Total Credit',
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged:
+                        (value) =>
+                            ref.read(totalCreditProvider.notifier).state =
+                                value,
+                  );
                 },
               ),
             ],
