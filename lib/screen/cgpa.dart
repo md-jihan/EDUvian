@@ -211,26 +211,43 @@ class SemesterListView extends ConsumerWidget {
     if (list.isEmpty) {
       return const Text("No semester added yet.");
     }
-    return Column(
-      children:
-          list
-              .map(
-                (semester) => ListTile(
-                  title: Text(semester['semester'] ?? "Unnamed Semester"),
-                  subtitle: Text(
-                    "Credit: ${semester['credit']} | GPA: ${semester['gpa']}",
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {
-                      final updated = [...ref.read(SemesterListProvider)]
-                        ..remove(semester);
-                      ref.read(SemesterListProvider.notifier).state = updated;
-                    },
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                  ),
+    return Consumer(
+      builder: (contex, ref, child) {
+        return SizedBox(
+          height: (list.length > 5 ? 5 : list.length) * 70,
+          child: ListView.builder(
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              final semester = list[index];
+              return ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              )
-              .toList(),
+                leading: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.teal.shade100,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.school, color: Colors.teal),
+                ),
+                title: Text(semester['semester'] ?? "Unnamed Semester"),
+                subtitle: Text(
+                  "Credit: ${semester['credit']} | GPA: ${semester['gpa']}",
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    final updated = [...ref.read(SemesterListProvider)]
+                      ..remove(semester);
+                    ref.read(SemesterListProvider.notifier).state = updated;
+                  },
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
