@@ -98,6 +98,21 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
               const SizedBox(height: 16),
               Consumer(
                 builder: (context, ref, child) {
+                  return TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'GPA (max 4.0)',
+                    ),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    onChanged:
+                        (value) =>
+                            ref.read(totalGpaProvider.notifier).state = value,
+                  );
+                },
+              ),
+              Consumer(
+                builder: (context, ref, child) {
                   return ElevatedButton(
                     onPressed: () {
                       final creditStr = ref.read(totalCreditProvider);
