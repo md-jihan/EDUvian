@@ -162,6 +162,10 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                     child: Consumer(
                       builder: (context, ref, child) {
                         return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryColor,
+                            foregroundColor: offWhite,
+                          ),
                           onPressed: () {
                             final creditStr = ref.read(totalCreditProvider);
                             final gpaStr = ref.read(totalGpaProvider);
