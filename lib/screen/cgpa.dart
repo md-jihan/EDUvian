@@ -228,30 +228,33 @@ class SemesterListView extends ConsumerWidget {
     }
     return Consumer(
       builder: (contex, ref, child) {
-        return SizedBox(
-          height: (list.length > 5 ? 5 : list.length) * 70,
-          child: ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (context, index) {
-              final semester = list[index];
-              return Card(
-                child: ListTile(
-                  visualDensity: VisualDensity(vertical: -2),
-                  title: Text(semester['semester'] ?? "Unnamed Semester"),
-                  subtitle: Text(
-                    "Credit: ${semester['credit']} | GPA: ${semester['gpa']}",
+        return Expanded(
+          child: SizedBox(
+            height: (list.length > 5 ? 5 : list.length) * 70,
+            child: ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                final semester = list[index];
+                return Card(
+                  color: offWhite,
+                  child: ListTile(
+                    visualDensity: VisualDensity(vertical: -2),
+                    title: Text(semester['semester'] ?? "Unnamed Semester"),
+                    subtitle: Text(
+                      "Credit: ${semester['credit']} | GPA: ${semester['gpa']}",
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {
+                        final updated = [...ref.read(SemesterListProvider)]
+                          ..remove(semester);
+                        ref.read(SemesterListProvider.notifier).state = updated;
+                      },
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                    ),
                   ),
-                  trailing: IconButton(
-                    onPressed: () {
-                      final updated = [...ref.read(SemesterListProvider)]
-                        ..remove(semester);
-                      ref.read(SemesterListProvider.notifier).state = updated;
-                    },
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                  ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         );
       },
