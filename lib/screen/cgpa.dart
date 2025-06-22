@@ -88,6 +88,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                         labelText: "semester",
                         border: OutlineInputBorder(borderSide: BorderSide.none),
                       ),
+                      dropdownColor: offWhite,
                       items:
                           semester
                               .map(
@@ -165,6 +166,14 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor,
                             foregroundColor: offWhite,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 20,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 6,
                           ),
                           onPressed: () {
                             final creditStr = ref.read(totalCreditProvider);
