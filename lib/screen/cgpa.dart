@@ -49,167 +49,162 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
       body: Container(
         padding: EdgeInsets.all(16),
         color: offWhite,
-        child: Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  return RoundedField(
-                    child: DropdownButtonFormField<String>(
-                      value: ref.watch(departmentProvider),
-                      decoration: const InputDecoration(
-                        hintText: "Department",
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
-                      ),
-                      dropdownColor: offWhite,
-                      items:
-                          department.keys
-                              .map(
-                                (e) =>
-                                    DropdownMenuItem(value: e, child: Text(e)),
-                              )
-                              .toList(),
-                      onChanged: (value) {
-                        ref.read(departmentProvider.notifier).state = value;
-                      },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Consumer(
+              builder: (context, ref, child) {
+                return RoundedField(
+                  child: DropdownButtonFormField<String>(
+                    value: ref.watch(departmentProvider),
+                    decoration: const InputDecoration(
+                      hintText: "Department",
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
                     ),
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-
-              Consumer(
-                builder: (context, ref, child) {
-                  return RoundedField(
-                    child: DropdownButtonFormField(
-                      value: ref.watch(semesterProvider),
-                      decoration: const InputDecoration(
-                        hintText: "semester",
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
-                      ),
-                      dropdownColor: offWhite,
-                      items:
-                          semester
-                              .map(
-                                (e) =>
-                                    DropdownMenuItem(value: e, child: Text(e)),
-                              )
-                              .toList(),
-                      onChanged: (value) {
-                        ref.read(semesterProvider.notifier).state = value;
-                      },
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              Row(
-                spacing: 10,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        return RoundedField(
-                          child: TextField(
-                            controller: creditController,
-                            decoration: const InputDecoration(
-                              hintText: 'Total Credit',
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
-                            onChanged:
-                                (value) =>
-                                    ref
-                                        .read(totalCreditProvider.notifier)
-                                        .state = value,
-                          ),
-                        );
-                      },
-                    ),
+                    dropdownColor: offWhite,
+                    items:
+                        department.keys
+                            .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      ref.read(departmentProvider.notifier).state = value;
+                    },
                   ),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
 
-                  Expanded(
-                    flex: 3,
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        return RoundedField(
-                          child: TextField(
-                            controller: gpaController,
-                            decoration: const InputDecoration(
-                              hintText: 'GPA (max 4.0)',
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            onChanged:
-                                (value) =>
-                                    ref.read(totalGpaProvider.notifier).state =
-                                        value,
-                          ),
-                        );
-                      },
+            Consumer(
+              builder: (context, ref, child) {
+                return RoundedField(
+                  child: DropdownButtonFormField(
+                    value: ref.watch(semesterProvider),
+                    decoration: const InputDecoration(
+                      hintText: "semester",
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
                     ),
+                    dropdownColor: offWhite,
+                    items:
+                        semester
+                            .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      ref.read(semesterProvider.notifier).state = value;
+                    },
                   ),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+            Row(
+              spacing: 10,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return RoundedField(
+                        child: TextField(
+                          controller: creditController,
+                          decoration: const InputDecoration(
+                            hintText: 'Total Credit',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged:
+                              (value) =>
+                                  ref.read(totalCreditProvider.notifier).state =
+                                      value,
+                        ),
+                      );
+                    },
+                  ),
+                ),
 
-                  Expanded(
-                    flex: 2,
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            foregroundColor: offWhite,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 22,
-                              vertical: 20,
+                Expanded(
+                  flex: 3,
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return RoundedField(
+                        child: TextField(
+                          controller: gpaController,
+                          decoration: const InputDecoration(
+                            hintText: 'GPA (max 4.0)',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 6,
                           ),
-                          onPressed: () {
-                            final creditStr = ref.read(totalCreditProvider);
-                            final gpaStr = ref.read(totalGpaProvider);
-                            final semester = ref.read(semesterProvider);
-                            final credit = double.tryParse(creditStr);
-                            final gpa = double.tryParse(gpaStr);
-                            if (credit != null && gpa != null && gpa <= 4.0) {
-                              final current = ref.read(SemesterListProvider);
-                              ref.read(SemesterListProvider.notifier).state = [
-                                ...current,
-                                {
-                                  'credit': credit,
-                                  'gpa': gpa,
-                                  'semester': semester,
-                                },
-                              ];
-                              ref.read(totalCreditProvider.notifier).state = '';
-                              ref.read(totalGpaProvider.notifier).state = '';
-                              ref.read(semesterProvider.notifier).state = null;
-                              creditController.clear();
-                              gpaController.clear();
-                            }
-                          },
-                          child: const Text("Add"),
-                        );
-                      },
-                    ),
+                          keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          onChanged:
+                              (value) =>
+                                  ref.read(totalGpaProvider.notifier).state =
+                                      value,
+                        ),
+                      );
+                    },
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              const SemesterListView(),
-              const CgpaResult(),
-            ],
-          ),
+                ),
+
+                Expanded(
+                  flex: 2,
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          foregroundColor: offWhite,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 22,
+                            vertical: 20,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 6,
+                        ),
+                        onPressed: () {
+                          final creditStr = ref.read(totalCreditProvider);
+                          final gpaStr = ref.read(totalGpaProvider);
+                          final semester = ref.read(semesterProvider);
+                          final credit = double.tryParse(creditStr);
+                          final gpa = double.tryParse(gpaStr);
+                          if (credit != null && gpa != null && gpa <= 4.0) {
+                            final current = ref.read(SemesterListProvider);
+                            ref.read(SemesterListProvider.notifier).state = [
+                              ...current,
+                              {
+                                'credit': credit,
+                                'gpa': gpa,
+                                'semester': semester,
+                              },
+                            ];
+                            ref.read(totalCreditProvider.notifier).state = '';
+                            ref.read(totalGpaProvider.notifier).state = '';
+                            ref.read(semesterProvider.notifier).state = null;
+                            creditController.clear();
+                            gpaController.clear();
+                          }
+                        },
+                        child: const Text("Add"),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const SemesterListView(),
+            const CgpaResult(),
+          ],
         ),
       ),
     );
