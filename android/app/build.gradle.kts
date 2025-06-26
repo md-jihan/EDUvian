@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.eduvian"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    //ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -29,6 +29,10 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
+    
+
+    ndkVersion = project.property("ANDROID_NDK_VERSION") as String
+
 
     buildTypes {
         release {
