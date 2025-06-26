@@ -46,11 +46,10 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, "CGPA"),
-      body: Expanded(
-        child: Container(
-          padding: EdgeInsets.all(16),
-          color: offWhite,
-
+      body: Container(
+        padding: EdgeInsets.all(16),
+        color: offWhite,
+        child: Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,9 +59,10 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                     child: DropdownButtonFormField<String>(
                       value: ref.watch(departmentProvider),
                       decoration: const InputDecoration(
-                        labelText: "Department",
+                        hintText: "Department",
                         border: OutlineInputBorder(borderSide: BorderSide.none),
                       ),
+                      dropdownColor: offWhite,
                       items:
                           department.keys
                               .map(
@@ -85,7 +85,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                     child: DropdownButtonFormField(
                       value: ref.watch(semesterProvider),
                       decoration: const InputDecoration(
-                        labelText: "semester",
+                        hintText: "semester",
                         border: OutlineInputBorder(borderSide: BorderSide.none),
                       ),
                       dropdownColor: offWhite,
@@ -115,7 +115,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                           child: TextField(
                             controller: creditController,
                             decoration: const InputDecoration(
-                              labelText: 'Total Credit',
+                              hintText: 'Total Credit',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
@@ -140,7 +140,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                           child: TextField(
                             controller: gpaController,
                             decoration: const InputDecoration(
-                              labelText: 'GPA (max 4.0)',
+                              hintText: 'GPA (max 4.0)',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
@@ -167,7 +167,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                             backgroundColor: primaryColor,
                             foregroundColor: offWhite,
                             padding: EdgeInsets.symmetric(
-                              horizontal: 24,
+                              horizontal: 22,
                               vertical: 20,
                             ),
                             shape: RoundedRectangleBorder(

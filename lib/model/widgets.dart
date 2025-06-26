@@ -129,8 +129,8 @@ class SubjectAutoComplete extends ConsumerWidget {
               ),
         );
       },
-      displayStringForOption: (Subject option) =>
-          '${option.Code} ${option.Title}',
+      displayStringForOption:
+          (Subject option) => '${option.Code} ${option.Title}',
 
       fieldViewBuilder: (context, controller, focuseNode, onEditingComplete) {
         return TextField(
@@ -207,14 +207,15 @@ AppBar appBar(BuildContext context, String title) => AppBar(
     "${title}",
     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
   ),
-  leading: GoRouter.of(context).canPop()
-      ? IconButton(
-          onPressed: () {
-            context.pop();
-          },
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-        )
-      : null,
+  leading:
+      GoRouter.of(context).canPop()
+          ? IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+          )
+          : null,
   centerTitle: true,
 );
 
@@ -280,18 +281,20 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                   child: DropdownButtonFormField<String>(
                     value: selectGrade.isNotEmpty ? selectGrade : null,
                     decoration: const InputDecoration(
-                      labelText: "Credit",
+                      hintText: "Credit",
                       contentPadding: EdgeInsets.all(8),
                       border: InputBorder.none,
                     ),
-                    items: creditTo
-                        .map(
-                          (credit) => DropdownMenuItem(
-                            value: credit,
-                            child: Text(credit),
-                          ),
-                        )
-                        .toList(),
+                    dropdownColor: offWhite,
+                    items:
+                        creditTo
+                            .map(
+                              (credit) => DropdownMenuItem(
+                                value: credit,
+                                child: Text(credit),
+                              ),
+                            )
+                            .toList(),
                     onChanged: (String? value) {
                       if (value != null) {
                         ref.read(dialogCreditProvider.notifier).state = value;
@@ -302,21 +305,25 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                 const SizedBox(height: 10),
                 RoundedField(
                   child: DropdownButtonFormField<String>(
-                    value: gradeToPoint.keys.contains(selectGrade)
-                        ? selectGrade
-                        : null,
+                    value:
+                        gradeToPoint.keys.contains(selectGrade)
+                            ? selectGrade
+                            : null,
                     decoration: const InputDecoration(
-                      labelText: "Grade",
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      hintText: "Grade",
+                      contentPadding: EdgeInsets.all(8),
+                      border: InputBorder.none,
                     ),
-                    items: gradeToPoint.keys
-                        .map(
-                          (grade) => DropdownMenuItem(
-                            value: grade,
-                            child: Text(grade),
-                          ),
-                        )
-                        .toList(),
+                    dropdownColor: offWhite,
+                    items:
+                        gradeToPoint.keys
+                            .map(
+                              (grade) => DropdownMenuItem(
+                                value: grade,
+                                child: Text(grade),
+                              ),
+                            )
+                            .toList(),
                     onChanged: (String? value) {
                       if (value != null) {
                         ref.read(dialogGradeProvider.notifier).state = value;
@@ -331,7 +338,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: primaryColor)),
           ),
           ElevatedButton(
             onPressed: () {
@@ -367,6 +374,10 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                 );
               }
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryColor,
+              foregroundColor: offWhite,
+            ),
             child: const Text('Add'),
           ),
         ],
