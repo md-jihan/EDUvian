@@ -288,6 +288,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
 
                     child: ArrowTooltip(
                       key: creditKey,
+                      arrowHeight: 0,
                       message: "Please select a Credit",
                       child: DropdownButtonFormField<String>(
                         value: selectGrade.isNotEmpty ? selectGrade : null,
