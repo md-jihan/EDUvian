@@ -259,9 +259,14 @@ final creditTo = [
   "5.5",
   "6",
 ];
-
+final GlobalKey gradeKey = GlobalKey();
+final GlobalKey creditKey = GlobalKey();
 final dialogGradeProvider = StateProvider<String?>((ref) => null);
 final dialogCreditProvider = StateProvider<String>((ref) => '');
+void showTooltip(GlobalKey key) {
+  final dynamic tooltip = key.currentState;
+  tooltip?.ensureTooltipVisible();
+}
 
 void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
   showDialog(
@@ -278,57 +283,74 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 RoundedField(
-                  child: DropdownButtonFormField<String>(
-                    value: selectGrade.isNotEmpty ? selectGrade : null,
-                    decoration: const InputDecoration(
-                      hintText: "Credit",
-                      contentPadding: EdgeInsets.all(8),
-                      border: InputBorder.none,
+                  child: GestureDetector(
+                    onTap: () {},
+
+                    child: Tooltip(
+                      key: creditKey,
+                      message: "Please select a Credit",
+                      child: DropdownButtonFormField<String>(
+                        value: selectGrade.isNotEmpty ? selectGrade : null,
+                        decoration: const InputDecoration(
+                          hintText: "Credit",
+                          contentPadding: EdgeInsets.all(8),
+                          border: InputBorder.none,
+                        ),
+                        dropdownColor: offWhite,
+                        items:
+                            creditTo
+                                .map(
+                                  (credit) => DropdownMenuItem(
+                                    value: credit,
+                                    child: Text(credit),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (String? value) {
+                          if (value != null) {
+                            ref.read(dialogCreditProvider.notifier).state =
+                                value;
+                          }
+                        },
+                      ),
                     ),
-                    dropdownColor: offWhite,
-                    items:
-                        creditTo
-                            .map(
-                              (credit) => DropdownMenuItem(
-                                value: credit,
-                                child: Text(credit),
-                              ),
-                            )
-                            .toList(),
-                    onChanged: (String? value) {
-                      if (value != null) {
-                        ref.read(dialogCreditProvider.notifier).state = value;
-                      }
-                    },
                   ),
                 ),
                 const SizedBox(height: 10),
                 RoundedField(
-                  child: DropdownButtonFormField<String>(
-                    value:
-                        gradeToPoint.keys.contains(selectGrade)
-                            ? selectGrade
-                            : null,
-                    decoration: const InputDecoration(
-                      hintText: "Grade",
-                      contentPadding: EdgeInsets.all(8),
-                      border: InputBorder.none,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Tooltip(
+                      key: gradeKey,
+                      message: "Please select a grade",
+                      child: DropdownButtonFormField<String>(
+                        value:
+                            gradeToPoint.keys.contains(selectGrade)
+                                ? selectGrade
+                                : null,
+                        decoration: const InputDecoration(
+                          hintText: "Grade",
+                          contentPadding: EdgeInsets.all(8),
+                          border: InputBorder.none,
+                        ),
+                        dropdownColor: offWhite,
+                        items:
+                            gradeToPoint.keys
+                                .map(
+                                  (grade) => DropdownMenuItem(
+                                    value: grade,
+                                    child: Text(grade),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (String? value) {
+                          if (value != null) {
+                            ref.read(dialogGradeProvider.notifier).state =
+                                value;
+                          }
+                        },
+                      ),
                     ),
-                    dropdownColor: offWhite,
-                    items:
-                        gradeToPoint.keys
-                            .map(
-                              (grade) => DropdownMenuItem(
-                                value: grade,
-                                child: Text(grade),
-                              ),
-                            )
-                            .toList(),
-                    onChanged: (String? value) {
-                      if (value != null) {
-                        ref.read(dialogGradeProvider.notifier).state = value;
-                      }
-                    },
                   ),
                 ),
               ],
@@ -345,12 +367,21 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
               final grade = ref.read(dialogGradeProvider);
               final creditStr = ref.read(dialogCreditProvider);
               final credit = double.tryParse(creditStr);
-              if (grade != null && credit != null) {
+              bool hasError = false;
+              if (grade == null || grade.trim().isEmpty) {
+                showTooltip(gradeKey);
+                hasError = true;
+              }
+              if (creditStr.trim().isEmpty || credit == null) {
+                showTooltip(creditKey);
+                hasError = true;
+              }
+              if (!hasError) {
                 final currentSubjects = ref.read(subjectProvider);
                 final newSubject = Subject(
                   "Manual-${currentSubjects.length + 1}",
                   "Custom Subject",
-                  credit,
+                  credit!,
                 );
                 ref.read(subjectProvider.notifier).state = [
                   ...currentSubjects,
@@ -361,17 +392,11 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
 
                 ref.read(gradeProvider.notifier).state = {
                   ...currentGrades,
-                  newSubject.Code: grade,
+                  newSubject.Code: grade!,
                 };
                 ref.read(dialogGradeProvider.notifier).state = null;
                 ref.read(dialogCreditProvider.notifier).state = '';
                 Navigator.of(context).pop();
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please enter valid credit and grade'),
-                  ),
-                );
               }
             },
             style: ElevatedButton.styleFrom(
