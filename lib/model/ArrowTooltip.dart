@@ -61,15 +61,12 @@ class _ArrowTooltipState extends State<ArrowTooltip> {
   }
 
   Widget _buildTooltip(Offset offset, Size size) {
-    final arrowSize = 10.0;
-    final padding = 8.0;
-
     final arrow = CustomPaint(
       painter: _ArrowPainter(
         color: widget.backgroundColor,
         position: widget.arrowPosition,
       ),
-      size: const Size(10, 10),
+      size: const Size(20, 10),
     );
 
     final tooltipBox = Container(
@@ -87,7 +84,7 @@ class _ArrowTooltipState extends State<ArrowTooltip> {
 
     switch (widget.arrowPosition) {
       case 'topCenter':
-        tooltipOffset = offset.translate(size.width / 2 - 60, -40);
+        tooltipOffset = offset.translate(size.width / 2 - 60, -50);
         composedTooltip = Column(
           mainAxisSize: MainAxisSize.min,
           children: [tooltipBox, arrow],
@@ -187,13 +184,13 @@ class _ArrowPainter extends CustomPainter {
     final path = Path();
 
     if (position.startsWith('top')) {
-      path.moveTo(0, size.height);
-      path.lineTo(size.width / 2, 0);
-      path.lineTo(size.width, size.height);
-    } else if (position.startsWith('bottom')) {
       path.moveTo(0, 0);
       path.lineTo(size.width / 2, size.height);
       path.lineTo(size.width, 0);
+    } else if (position.startsWith('bottom')) {
+      path.moveTo(0, size.height);
+      path.lineTo(size.width / 2, 0);
+      path.lineTo(size.width, size.height);
     } else if (position.startsWith('left')) {
       path.moveTo(size.width, 0);
       path.lineTo(0, size.height / 2);
