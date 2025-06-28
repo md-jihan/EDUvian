@@ -75,6 +75,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                 );
               },
             ),
+
             const SizedBox(height: 10),
 
             Consumer(
@@ -117,6 +118,7 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                               borderSide: BorderSide.none,
                             ),
                           ),
+
                           keyboardType: TextInputType.number,
                           onChanged:
                               (value) =>

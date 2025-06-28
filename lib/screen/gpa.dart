@@ -74,141 +74,160 @@ class _GpaCalculationState extends ConsumerState<GpaCalculation> {
                   ),
                   const SizedBox(height: 15),
                   if (ref.watch(departmentProvider) != null)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width) * 0.78,
-                          child: RoundedField(
-                            child: SubjectAutoComplete(
-                              departmentProvider: departmentProvider,
-                              departmentMap: department,
-                              subjectProvider: subjectProvider,
-                              fieldDecoration: fieldDecoration,
+                    Consumer(
+                      builder: (context, ref, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: (MediaQuery.of(context).size.width) * 0.78,
+                              child: RoundedField(
+                                child: SubjectAutoComplete(
+                                  departmentProvider: departmentProvider,
+                                  departmentMap: department,
+                                  subjectProvider: subjectProvider,
+                                  fieldDecoration: fieldDecoration,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () => showAddSubjectDialog(context, ref),
-                          icon: Icon(Icons.add, color: primaryColor, size: 40),
-                        ),
-                      ],
+                            IconButton(
+                              onPressed:
+                                  () => showAddSubjectDialog(context, ref),
+                              icon: Icon(
+                                Icons.add,
+                                color: primaryColor,
+                                size: 40,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                 ],
               ),
               const SizedBox(height: 16),
-              Expanded(
-                flex: 4,
-                child: ListView.builder(
-                  itemCount: subjects.length,
-                  itemBuilder: (context, index) {
-                    final subject = subjects[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      elevation: 4,
-                      color: offWhite,
-                      shadowColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 10,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Consumer(
+                builder: (context, ref, child) {
+                  return Expanded(
+                    flex: 4,
+                    child: ListView.builder(
+                      itemCount: subjects.length,
+                      itemBuilder: (context, index) {
+                        final subject = subjects[index];
+                        return Card(
+                          margin: const EdgeInsets.symmetric(vertical: 6),
+                          elevation: 4,
+                          color: offWhite,
+                          shadowColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 10,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                          children: [
-                            Row(
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  padding: const EdgeInsets.all(8),
-                                  margin: const EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    "${subject.Code}",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: offWhite,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  "Credit: ${subject.Credit}",
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.30,
-                                  child: RoundedField(
-                                    child: DropdownButtonFormField<String>(
-                                      value: ref.watch(
-                                        gradeProvider,
-                                      )[subject.Code],
-                                      decoration: const InputDecoration(
-                                        labelText: "Grade",
-                                        labelStyle: TextStyle(
-                                          color: primaryColor,
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        isDense: true,
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      items: gradeToPoint.keys
-                                          .map(
-                                            (grade) => DropdownMenuItem(
-                                              value: grade,
-                                              child: Text(grade),
-                                            ),
-                                          )
-                                          .toList(),
-                                      onChanged: (value) {
-                                        final current = ref.read(gradeProvider);
-                                        ref
-                                            .read(gradeProvider.notifier)
-                                            .state = {
-                                          ...current,
-                                          subject.Code: value ?? '',
-                                        };
-                                      },
+                                      padding: const EdgeInsets.all(8),
+                                      margin: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        "${subject.Code}",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: offWhite,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      "Credit: ${subject.Credit}",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    final update =
-                                        ref.read(subjectProvider.notifier).state
-                                          ..remove(subject);
-                                    ref.read(subjectProvider.notifier).state = [
-                                      ...update,
-                                    ];
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.redAccent,
-                                  ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width *
+                                          0.30,
+                                      child: RoundedField(
+                                        child: DropdownButtonFormField<String>(
+                                          value:
+                                              ref.watch(gradeProvider)[subject
+                                                  .Code],
+                                          decoration: const InputDecoration(
+                                            labelText: "Grade",
+                                            labelStyle: TextStyle(
+                                              color: primaryColor,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            isDense: true,
+                                          ),
+                                          items:
+                                              gradeToPoint.keys
+                                                  .map(
+                                                    (grade) => DropdownMenuItem(
+                                                      value: grade,
+                                                      child: Text(grade),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                          onChanged: (value) {
+                                            final current = ref.read(
+                                              gradeProvider,
+                                            );
+                                            ref
+                                                .read(gradeProvider.notifier)
+                                                .state = {
+                                              ...current,
+                                              subject.Code: value ?? '',
+                                            };
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        final update =
+                                            ref
+                                                .read(subjectProvider.notifier)
+                                                .state
+                                              ..remove(subject);
+                                        ref
+                                            .read(subjectProvider.notifier)
+                                            .state = [...update];
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.redAccent,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
 
               Padding(
