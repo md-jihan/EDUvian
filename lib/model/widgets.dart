@@ -1,3 +1,4 @@
+import 'package:eduvian/model/ArrowTooltip.dart';
 import 'package:eduvian/screen/gpa.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -259,13 +260,12 @@ final creditTo = [
   "5.5",
   "6",
 ];
-final GlobalKey gradeKey = GlobalKey();
-final GlobalKey creditKey = GlobalKey();
+final GlobalKey<ArrowTooltipState> gradeKey = GlobalKey<ArrowTooltipState>();
+final GlobalKey<ArrowTooltipState> creditKey = GlobalKey<ArrowTooltipState>();
 final dialogGradeProvider = StateProvider<String?>((ref) => null);
 final dialogCreditProvider = StateProvider<String>((ref) => '');
-void showTooltip(GlobalKey key) {
-  final dynamic tooltip = key.currentState;
-  tooltip?.ensureTooltipVisible();
+void showTooltip(GlobalKey<ArrowTooltipState> key) {
+  key.currentState?.show();
 }
 
 void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
@@ -286,7 +286,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                   child: GestureDetector(
                     onTap: () {},
 
-                    child: Tooltip(
+                    child: ArrowTooltip(
                       key: creditKey,
                       message: "Please select a Credit",
                       child: DropdownButtonFormField<String>(
@@ -320,7 +320,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                 RoundedField(
                   child: GestureDetector(
                     onTap: () {},
-                    child: Tooltip(
+                    child: ArrowTooltip(
                       key: gradeKey,
                       message: "Please select a grade",
                       child: DropdownButtonFormField<String>(
