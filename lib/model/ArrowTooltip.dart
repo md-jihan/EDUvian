@@ -7,6 +7,7 @@ class ArrowTooltip extends StatefulWidget {
   final Color backgroundColor;
   final Color textColor;
   final Color borderColor;
+  final double textSize;
   final double borderRadius;
 
   const ArrowTooltip({
@@ -17,6 +18,7 @@ class ArrowTooltip extends StatefulWidget {
     this.backgroundColor = Colors.black,
     this.textColor = Colors.white,
     this.borderColor = Colors.black,
+    this.textSize = 14,
     this.borderRadius = 8,
   });
 
@@ -71,12 +73,23 @@ class _ArrowTooltipState extends State<ArrowTooltip> {
 
     final tooltipBox = Container(
       padding: const EdgeInsets.all(8),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.8,
+      ),
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         border: Border.all(color: widget.borderColor),
         borderRadius: BorderRadius.circular(widget.borderRadius),
       ),
-      child: Text(widget.message, style: TextStyle(color: widget.textColor)),
+      child: Flexible(
+        child: Text(
+          widget.message,
+          softWrap: true,
+          overflow: TextOverflow.visible,
+          style: TextStyle(color: widget.textColor, fontSize: widget.textSize),
+          maxLines: null,
+        ),
+      ),
     );
 
     Offset tooltipOffset = offset;
@@ -192,14 +205,14 @@ class _ArrowPainter extends CustomPainter {
       path.lineTo(size.width / 2, 0);
       path.lineTo(size.width, size.height);
     } else if (position.startsWith('left')) {
-      path.moveTo(size.width, 0);
-      path.lineTo(0, size.height / 2);
-      path.lineTo(size.width, size.height);
-    } else {
-      // right
       path.moveTo(0, 0);
       path.lineTo(size.width, size.height / 2);
       path.lineTo(0, size.height);
+    } else {
+      // right
+      path.moveTo(size.width, 0);
+      path.lineTo(0, size.height / 2);
+      path.lineTo(size.width, size.height);
     }
 
     path.close();
