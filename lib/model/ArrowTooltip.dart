@@ -3,138 +3,212 @@ import 'package:flutter/material.dart';
 class ArrowTooltip extends StatefulWidget {
   final Widget child;
   final String message;
+  final String arrowPosition; // e.g., 'bottomCenter'
   final Color backgroundColor;
   final Color textColor;
+  final Color borderColor;
   final double borderRadius;
-  final double arrowHeight;
-  final GlobalKey<ArrowTooltipState>? key;
 
-  ArrowTooltip({
-    required this.message,
+  const ArrowTooltip({
+    super.key,
     required this.child,
+    required this.message,
+    this.arrowPosition = 'bottomCenter',
     this.backgroundColor = Colors.black,
     this.textColor = Colors.white,
-    this.borderRadius = 8.0,
-    this.arrowHeight = 8.0,
-    this.key,
-  }) : super(key: key);
+    this.borderColor = Colors.black,
+    this.borderRadius = 8,
+  });
 
   @override
-  ArrowTooltipState createState() => ArrowTooltipState();
+  State<ArrowTooltip> createState() => _ArrowTooltipState();
 }
 
-class ArrowTooltipState extends State<ArrowTooltip> {
-  final LayerLink _layerLink = LayerLink();
+class _ArrowTooltipState extends State<ArrowTooltip> {
   OverlayEntry? _overlayEntry;
 
-  void show() {
+  void ensureTooltipVisible() {
     if (_overlayEntry != null) return;
 
-    final renderBox = context.findRenderObject() as RenderBox;
+    final renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
 
     _overlayEntry = OverlayEntry(
       builder: (context) {
-        return Positioned(
-          left: offset.dx,
-          top: offset.dy - widget.arrowHeight - 40,
-          child: Material(
-            color: Colors.transparent,
-            child: CompositedTransformFollower(
-              link: _layerLink,
-              offset: Offset(0, -size.height - widget.arrowHeight - 8),
-              showWhenUnlinked: false,
-              child: TooltipContent(
-                message: widget.message,
-                backgroundColor: widget.backgroundColor,
-                textColor: widget.textColor,
-                borderRadius: widget.borderRadius,
-                arrowHeight: widget.arrowHeight,
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () => hideTooltip(),
+                behavior: HitTestBehavior.translucent,
               ),
             ),
-          ),
+            _buildTooltip(offset, size),
+          ],
         );
       },
     );
 
     Overlay.of(context).insert(_overlayEntry!);
-
-    // Auto-dismiss after 2 seconds
-    Future.delayed(const Duration(seconds: 2), hide);
   }
 
-  void hide() {
+  void hideTooltip() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return CompositedTransformTarget(
-      link: _layerLink,
-      child: GestureDetector(
-        onTap: show, // Optional: show on tap
-        child: widget.child,
+  Widget _buildTooltip(Offset offset, Size size) {
+    final arrowSize = 10.0;
+    final padding = 8.0;
+
+    final arrow = CustomPaint(
+      painter: _ArrowPainter(
+        color: widget.backgroundColor,
+        position: widget.arrowPosition,
       ),
+      size: const Size(10, 10),
+    );
+
+    final tooltipBox = Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: widget.backgroundColor,
+        border: Border.all(color: widget.borderColor),
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+      ),
+      child: Text(widget.message, style: TextStyle(color: widget.textColor)),
+    );
+
+    Offset tooltipOffset = offset;
+    Widget composedTooltip;
+
+    switch (widget.arrowPosition) {
+      case 'topCenter':
+        tooltipOffset = offset.translate(size.width / 2 - 60, -40);
+        composedTooltip = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [tooltipBox, arrow],
+        );
+        break;
+
+      case 'bottomCenter':
+        tooltipOffset = offset.translate(size.width / 2 - 60, size.height + 8);
+        composedTooltip = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [arrow, tooltipBox],
+        );
+        break;
+
+      case 'topLeft':
+        tooltipOffset = offset.translate(0, -40);
+        composedTooltip = Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [tooltipBox, arrow],
+        );
+        break;
+
+      case 'topRight':
+        tooltipOffset = offset.translate(size.width - 120, -40);
+        composedTooltip = Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [tooltipBox, arrow],
+        );
+        break;
+
+      case 'bottomLeft':
+        tooltipOffset = offset.translate(0, size.height + 8);
+        composedTooltip = Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [arrow, tooltipBox],
+        );
+        break;
+
+      case 'bottomRight':
+        tooltipOffset = offset.translate(size.width - 120, size.height + 8);
+        composedTooltip = Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [arrow, tooltipBox],
+        );
+        break;
+
+      case 'leftCenter':
+        tooltipOffset = offset.translate(-130, size.height / 2 - 20);
+        composedTooltip = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [tooltipBox, arrow],
+        );
+        break;
+
+      case 'rightCenter':
+        tooltipOffset = offset.translate(size.width + 8, size.height / 2 - 20);
+        composedTooltip = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [arrow, tooltipBox],
+        );
+        break;
+
+      default:
+        tooltipOffset = offset.translate(size.width / 2 - 60, size.height + 8);
+        composedTooltip = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [arrow, tooltipBox],
+        );
+    }
+
+    return Positioned(
+      left: tooltipOffset.dx,
+      top: tooltipOffset.dy,
+      child: Material(color: Colors.transparent, child: composedTooltip),
     );
   }
-}
-
-class TooltipContent extends StatelessWidget {
-  final String message;
-  final Color backgroundColor;
-  final Color textColor;
-  final double borderRadius;
-  final double arrowHeight;
-
-  const TooltipContent({
-    required this.message,
-    required this.backgroundColor,
-    required this.textColor,
-    required this.borderRadius,
-    required this.arrowHeight,
-  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomPaint(
-          painter: _ArrowPainter(color: backgroundColor),
-          child: const SizedBox(height: 8, width: 16),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-          child: Text(message, style: TextStyle(color: textColor)),
-        ),
-      ],
-    );
+    return GestureDetector(onTap: ensureTooltipVisible, child: widget.child);
   }
 }
 
 class _ArrowPainter extends CustomPainter {
   final Color color;
+  final String position;
 
-  _ArrowPainter({required this.color});
+  _ArrowPainter({required this.color, required this.position});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = color;
-    final path =
-        Path()
-          ..moveTo(0, size.height)
-          ..lineTo(size.width / 2, 0)
-          ..lineTo(size.width, size.height)
-          ..close();
+    final path = Path();
 
+    if (position.startsWith('top')) {
+      path.moveTo(0, size.height);
+      path.lineTo(size.width / 2, 0);
+      path.lineTo(size.width, size.height);
+    } else if (position.startsWith('bottom')) {
+      path.moveTo(0, 0);
+      path.lineTo(size.width / 2, size.height);
+      path.lineTo(size.width, 0);
+    } else if (position.startsWith('left')) {
+      path.moveTo(size.width, 0);
+      path.lineTo(0, size.height / 2);
+      path.lineTo(size.width, size.height);
+    } else {
+      // right
+      path.moveTo(0, 0);
+      path.lineTo(size.width, size.height / 2);
+      path.lineTo(0, size.height);
+    }
+
+    path.close();
     canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(_ArrowPainter oldDelegate) => false;
 }

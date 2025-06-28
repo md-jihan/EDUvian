@@ -260,12 +260,13 @@ final creditTo = [
   "5.5",
   "6",
 ];
-final GlobalKey<ArrowTooltipState> gradeKey = GlobalKey<ArrowTooltipState>();
-final GlobalKey<ArrowTooltipState> creditKey = GlobalKey<ArrowTooltipState>();
+final GlobalKey gradeKey = GlobalKey();
+final GlobalKey creditKey = GlobalKey();
 final dialogGradeProvider = StateProvider<String?>((ref) => null);
 final dialogCreditProvider = StateProvider<String>((ref) => '');
-void showTooltip(GlobalKey<ArrowTooltipState> key) {
-  key.currentState?.show();
+void showTooltip(GlobalKey key) {
+  final dynamic tooltip = key.currentState;
+  tooltip?.showTooltip();
 }
 
 void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
@@ -288,6 +289,11 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
 
                     child: ArrowTooltip(
                       key: creditKey,
+                      arrowPosition: 'topCenter',
+                      backgroundColor: Colors.blue,
+                      textColor: Colors.white,
+                      borderColor: Colors.blue,
+                      borderRadius: 10,
                       message: "Please select a Credit",
                       child: DropdownButtonFormField<String>(
                         value: selectGrade.isNotEmpty ? selectGrade : null,
