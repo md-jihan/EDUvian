@@ -289,7 +289,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
 
                     child: ArrowTooltip(
                       key: creditKey,
-                      arrowPosition: ArrowPosition.topLeft,
+                      arrowPosition: ArrowPosition.bottomCenter,
                       backgroundColor: Colors.blue,
                       textColor: Colors.white,
                       message: "Please select a Credit",
@@ -326,7 +326,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                     onTap: () {},
                     child: ArrowTooltip(
                       key: gradeKey,
-                      arrowPosition: ArrowPosition.bottomCenter,
+                      arrowPosition: ArrowPosition.topCenter,
                       message: "Please select a grade",
                       child: DropdownButtonFormField<String>(
                         value:
