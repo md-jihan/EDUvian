@@ -7,7 +7,6 @@ class ArrowTooltip extends StatefulWidget {
   final Color backgroundColor;
   final Color textColor;
   final Color borderColor;
-  final double textSize;
   final double borderRadius;
 
   const ArrowTooltip({
@@ -18,7 +17,6 @@ class ArrowTooltip extends StatefulWidget {
     this.backgroundColor = Colors.black,
     this.textColor = Colors.white,
     this.borderColor = Colors.black,
-    this.textSize = 14,
     this.borderRadius = 8,
   });
 
@@ -68,28 +66,17 @@ class _ArrowTooltipState extends State<ArrowTooltip> {
         color: widget.backgroundColor,
         position: widget.arrowPosition,
       ),
-      size: const Size(20, 10),
+      size: const Size(10, 10),
     );
 
     final tooltipBox = Container(
       padding: const EdgeInsets.all(8),
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.8,
-      ),
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         border: Border.all(color: widget.borderColor),
         borderRadius: BorderRadius.circular(widget.borderRadius),
       ),
-      child: Flexible(
-        child: Text(
-          widget.message,
-          softWrap: true,
-          overflow: TextOverflow.visible,
-          style: TextStyle(color: widget.textColor, fontSize: widget.textSize),
-          maxLines: null,
-        ),
-      ),
+      child: Text(widget.message, style: TextStyle(color: widget.textColor)),
     );
 
     Offset tooltipOffset = offset;
@@ -97,7 +84,7 @@ class _ArrowTooltipState extends State<ArrowTooltip> {
 
     switch (widget.arrowPosition) {
       case 'topCenter':
-        tooltipOffset = offset.translate(size.width / 2 - 60, -50);
+        tooltipOffset = offset.translate(size.width / 2 - 60, -40);
         composedTooltip = Column(
           mainAxisSize: MainAxisSize.min,
           children: [tooltipBox, arrow],
@@ -197,22 +184,22 @@ class _ArrowPainter extends CustomPainter {
     final path = Path();
 
     if (position.startsWith('top')) {
-      path.moveTo(0, 0);
-      path.lineTo(size.width / 2, size.height);
-      path.lineTo(size.width, 0);
-    } else if (position.startsWith('bottom')) {
       path.moveTo(0, size.height);
       path.lineTo(size.width / 2, 0);
       path.lineTo(size.width, size.height);
-    } else if (position.startsWith('left')) {
+    } else if (position.startsWith('bottom')) {
       path.moveTo(0, 0);
-      path.lineTo(size.width, size.height / 2);
-      path.lineTo(0, size.height);
-    } else {
-      // right
+      path.lineTo(size.width / 2, size.height);
+      path.lineTo(size.width, 0);
+    } else if (position.startsWith('left')) {
       path.moveTo(size.width, 0);
       path.lineTo(0, size.height / 2);
       path.lineTo(size.width, size.height);
+    } else {
+      // right
+      path.moveTo(0, 0);
+      path.lineTo(size.width, size.height / 2);
+      path.lineTo(0, size.height);
     }
 
     path.close();
