@@ -266,7 +266,7 @@ final dialogGradeProvider = StateProvider<String?>((ref) => null);
 final dialogCreditProvider = StateProvider<String>((ref) => '');
 void showTooltip(GlobalKey key) {
   final dynamic tooltip = key.currentState;
-  tooltip?.ensureTooltipVisible();
+  tooltip?.showTooltip();
 }
 
 void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
@@ -289,7 +289,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
 
                     child: ArrowTooltip(
                       key: creditKey,
-                      arrowPosition: 'topCenter',
+                      arrowPosition: ArrowPosition.topLeft,
                       backgroundColor: Colors.blue,
                       textColor: Colors.white,
                       message: "Please select a Credit",
@@ -326,7 +326,7 @@ void showAddSubjectDialog(BuildContext context, WidgetRef ref) {
                     onTap: () {},
                     child: ArrowTooltip(
                       key: gradeKey,
-                      arrowPosition: 'bottomCenter',
+                      arrowPosition: ArrowPosition.bottomCenter,
                       message: "Please select a grade",
                       child: DropdownButtonFormField<String>(
                         value:
