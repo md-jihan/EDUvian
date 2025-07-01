@@ -1,3 +1,4 @@
+import 'package:eduvian/model/ArrowTooltip.dart';
 import 'package:eduvian/model/department.dart';
 import 'package:eduvian/model/widgets.dart';
 import 'package:flutter/material.dart';
@@ -110,20 +111,28 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   child: Consumer(
                     builder: (context, ref, child) {
                       return RoundedField(
-                        child: TextField(
-                          controller: creditController,
-                          decoration: const InputDecoration(
-                            hintText: 'Total Credit',
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: ArrowTooltip(
+                            key: creditKey,
+                            message: "Please enter your Credit",
+                            child: TextField(
+                              controller: creditController,
+                              decoration: const InputDecoration(
+                                hintText: 'Total Credit',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+
+                              keyboardType: TextInputType.number,
+                              onChanged:
+                                  (value) =>
+                                      ref
+                                          .read(totalCreditProvider.notifier)
+                                          .state = value,
                             ),
                           ),
-
-                          keyboardType: TextInputType.number,
-                          onChanged:
-                              (value) =>
-                                  ref.read(totalCreditProvider.notifier).state =
-                                      value,
                         ),
                       );
                     },
@@ -135,21 +144,30 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                   child: Consumer(
                     builder: (context, ref, child) {
                       return RoundedField(
-                        child: TextField(
-                          controller: gpaController,
-                          decoration: const InputDecoration(
-                            hintText: 'GPA (max 4.0)',
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: ArrowTooltip(
+                            key: gradeKey,
+                            message: "Please enter your GPA",
+                            child: TextField(
+                              controller: gpaController,
+                              decoration: const InputDecoration(
+                                hintText: 'GPA (max 4.0)',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                              onChanged:
+                                  (value) =>
+                                      ref
+                                          .read(totalGpaProvider.notifier)
+                                          .state = value,
                             ),
                           ),
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          onChanged:
-                              (value) =>
-                                  ref.read(totalGpaProvider.notifier).state =
-                                      value,
                         ),
                       );
                     },
@@ -179,22 +197,32 @@ class _CgpaCalculationState extends ConsumerState<CgpaCalculation> {
                           final semester = ref.read(semesterProvider);
                           final credit = double.tryParse(creditStr);
                           final gpa = double.tryParse(gpaStr);
-                          if (credit != null && gpa != null && gpa <= 4.0) {
-                            final current = ref.read(SemesterListProvider);
-                            ref.read(SemesterListProvider.notifier).state = [
-                              ...current,
-                              {
-                                'credit': credit,
-                                'gpa': gpa,
-                                'semester': semester,
-                              },
-                            ];
-                            ref.read(totalCreditProvider.notifier).state = '';
-                            ref.read(totalGpaProvider.notifier).state = '';
-                            ref.read(semesterProvider.notifier).state = null;
-                            creditController.clear();
-                            gpaController.clear();
+                          bool hasError = false;
+                          if (credit == null || creditStr.trim().isEmpty) {
+                            showTooltip(creditKey);
+                            hasError = true;
                           }
+                          if (gpaStr.trim().isEmpty ||
+                              gpa == null ||
+                              gpa > 4.0) {
+                            showTooltip(gradeKey);
+                            hasError = true;
+                          }
+                          if (hasError) return;
+                          final current = ref.read(SemesterListProvider);
+                          ref.read(SemesterListProvider.notifier).state = [
+                            ...current,
+                            {
+                              'credit': credit,
+                              'gpa': gpa,
+                              'semester': semester,
+                            },
+                          ];
+                          ref.read(totalCreditProvider.notifier).state = '';
+                          ref.read(totalGpaProvider.notifier).state = '';
+                          ref.read(semesterProvider.notifier).state = null;
+                          creditController.clear();
+                          gpaController.clear();
                         },
                         child: const Text("Add"),
                       );

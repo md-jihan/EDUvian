@@ -260,12 +260,11 @@ final creditTo = [
   "5.5",
   "6",
 ];
-final GlobalKey gradeKey = GlobalKey();
-final GlobalKey gradedKey = GlobalKey();
-final GlobalKey creditKey = GlobalKey();
+final GlobalKey<ArrowTooltipState> gradeKey = GlobalKey();
+final GlobalKey<ArrowTooltipState> creditKey = GlobalKey();
 final dialogGradeProvider = StateProvider<String?>((ref) => null);
 final dialogCreditProvider = StateProvider<String>((ref) => '');
-void showTooltip(GlobalKey key) {
+void showTooltip(GlobalKey<ArrowTooltipState> key) {
   final dynamic tooltip = key.currentState;
   tooltip?.ensureTooltipVisible();
 }
